@@ -1,0 +1,32 @@
+{
+  "name": "file_locker",
+  "version": "0.1.0",
+  "description": "an encrypted file storage app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/file-locker/file_locker.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/file-locker/file_locker/issues"
+  },
+  "homepage": "https://github.com/file-locker/file_locker#readme",
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "chai-http": "^1.0.0",
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-mocha": "^2.1.3",
+    "mocha": "^2.3.2"
+  },
+  "dependencies": {
+    "body-parser": "^1.14.0",
+    "express": "^4.13.3",
+    "mongoose": "^4.1.7"
+  }
+}
