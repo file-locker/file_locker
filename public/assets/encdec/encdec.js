@@ -1,3 +1,6 @@
+// Thanks to revolunet,
+// https://gist.github.com/revolunet/843889
+
 // LZW-compress a string
 function lzw_encode(s) {
     var dict = {};
