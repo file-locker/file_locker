@@ -2,7 +2,9 @@
     <div class="col-lg-12">
         <h1 class="page-header">{{pageName}}
             <button type="button"
-                    class="btn btn-primary btn-lg" ng-click='toggleUpload()'>Upload File
+                    class="btn btn-primary btn-lg" ng-click='toggleUpload()'>
+                <span
+                        class="fa fa-cloud-upload"></span> Upload File
             </button>
         </h1>
     </div>
@@ -11,28 +13,32 @@
     <div class="col-lg-3 col-md-4 col-sm-5 col-xs-6" ng-repeat="file in files">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                {{file.filename}}
+                {{file.name}}
             </div>
             <div class="panel-body">
                 <p>{{file.size}} kb</p> <br/>
 
+                <p>{{file.desc}}</p> <br/>
+
                 <p>{{file.tags}}</p>
             </div>
             <div class="panel-footer" style="text-align: right">
-                <button type="button" class="btn btn-outline btn-success"><span
+                <button type="button" class="btn btn-outline btn-success"
+                        ng-click="toggleDownload(file)"><span
                         class="fa fa-cloud-download fa-2x"></span></button>
-                <button type="button" class="btn btn-outline btn-primary"><span
+                <button type="button" class="btn btn-outline btn-primary"
+                        ng-click="toggleUpdate(file)"><span
                         class="fa fa-edit fa-2x"></span></button>
-                <button type="button" class="btn btn-outline btn-warning"><span
-                        class="fa fa-cloud-upload fa-2x"></span></button>
                 <button type="button" class="btn btn-outline btn-danger"><span
-                        class="fa fa-times fa-2x"></span></button>
+                        class="fa fa-times fa-2x"
+                        ng-click="toggleDelete(file)"></span></button>
             </div>
         </div>
     </div>
 </div>
-<modal-dialog show='modalShown' width='750px' height='60%'>
-    <div ng-if="upload">
+<modal-dialog show='modalShown' width='750px'
+              set-fn="setHideModalDlg(hideModal)">
+    <div ng-if="mode === 'upload'">
         <form>
             <div class="form-group">
                 <label>Tags</label>
@@ -48,10 +54,107 @@
                 <input type="file" id="fileinput">
             </div>
             <div class="form-group has-error">
-                <label class="control-label" for="inputError">Enter an encryption passphrase</label>
-                <input type="text" class="form-control" id="passphrase">
+                <label class="control-label" for="passphraseup">Enter an
+                    encryption passphrase</label>
+                <input type="text" class="form-control" id="passphraseup">
             </div>
-            <button type="button" class="btn btn-success btn-lg btn-block" id="upload" ng-click="upload()">Upload File</button>
+            <button type="button" class="btn btn-success btn-lg btn-block"
+                    id="upload" ng-click="upload()">Upload File
+            </button>
+        </form>
+    </div>
+    <div ng-if="mode === 'delete'">
+        <form>
+            <div class="form-group">
+                <div class="col-lg-12">
+                    <div class="panel panel-red">
+                        <div class="panel-heading">
+                            Are you Sure?
+                        </div>
+                        <div class="panel-body">
+                            <p>You are about to delete {{targetFile.name}}</p>
+
+                            <p>Are you sure? This cannot be undone.</p>
+                            <button type="button" class="btn btn-danger"
+                                    ng-click="deleteFile(targetfile)">Yep. Do
+                                it.
+                            </button>
+                            <button type="button" class="btn btn-default"
+                                    ng-click="toggleModal()">
+                                Whoops! Don't do it!
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div ng-if="mode === 'update'">
+        <form>
+            <div class="form-group">
+                <div class="form-group">
+                    <label>Filename</label>
+                    <input class="form-control" id="updName"
+                           value="{{targetFile.name}}">
+
+                    <p class="help-block">Change the current filename for this
+                        file.</p>
+                </div>
+                <div class="form-group">
+                    <label>Tags</label>
+                    <input class="form-control" id="updTags"
+                           value="{{targetFile.tags}}">
+                    <label>Description</label>
+                    <input class="form-control" id="updDesc"
+                           value="{{targetFile.desc}}">
+
+                    <p class="help-block">Change the current description or tags
+                        on this file.</p>
+                </div>
+                <button type="button" class="btn btn-primary"
+                        ng-click="update()">Save
+                </button>
+                <button type="button" class="btn btn-default"
+                        ng-click="toggleModal()">Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+    <div ng-if="mode === 'download'">
+        <form>
+            <div class="form-group has-error">
+                <label class="control-label" for="passphrasedn">Enter the
+                    encryption passphrase</label>
+                <input type="text" class="form-control" id="passphrasedn">
+            </div>
+            <button type="button" class="btn btn-primary btn-lg"
+                    id="download" ng-click="download()">Download File
+            </button>
+            <button type="button" class="btn btn-default btn-lg"
+                    id="cancel" ng-click="toggleModal()">Cancel
+            </button>
+        </form>
+    </div>
+    <div ng-if="mode === 'wrongkey'">
+        <form>
+            <div class="col-lg-12">
+                <div class="panel panel-red">
+                    <div class="panel-heading">
+                        Could not authenticate.
+                    </div>
+                    <div class="panel-body">
+                        <p>Sorry, but we couldn't authenticate that download.
+                            The transmission
+                            was either damaged in transit or your passphrase was
+                            incorrect. Please
+                            try again.</p>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-danger btn-lg btn-block"
+                    id="tryagain" ng-click="toggleModal();toggleDownload()">Try
+                Again
+            </button>
         </form>
     </div>
 

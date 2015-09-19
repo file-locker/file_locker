@@ -12,6 +12,8 @@
     z-index:10000;
     position: absolute;
     width: 50%;
+    overflow: auto;
+    min-height: 10px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
