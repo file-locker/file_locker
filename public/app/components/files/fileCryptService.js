@@ -3,7 +3,7 @@ app.factory('fileCryptService', function () {
 
     fileCryptService.encrypt = function($scope, blob, pass){
 
-        var data = btoa(blob);
+        var data = lzw_encode(blob);
         return CryptoJS.AES.encrypt(data, pass).toString();
 
     };
@@ -12,7 +12,7 @@ app.factory('fileCryptService', function () {
 
         var decrypted = CryptoJS.AES.decrypt(cipher.toString(),
             pass).toString(CryptoJS.enc.Base64);
-        return (atob(atob(decrypted)));
+        return lzw_decode(atob(decrypted));
 
     };
 

@@ -20,7 +20,9 @@ app.controller('fileController', function ($scope, fileCryptService) {
         {filename: "testfile2", size: 2124, tags:"test file2 and things"},
         {filename: "testfile2", size: 2124, tags:"test file2 and things"}];
 
-    //var enc = fileCryptService.encrypt($scope, '1234', 'pass');
-    //var dec = fileCryptService.decrypt($scope, enc, 'pass');
+    var enc = fileCryptService.encrypt($scope, '1234', 'pass');
+    console.log(enc.toString());
+    var dec = fileCryptService.decrypt($scope, enc, 'pass');
+    console.log(dec.toString());
 
 });
