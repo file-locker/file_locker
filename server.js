@@ -3,10 +3,8 @@
 var express = require('express');
 var app = express();
 var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/users_dev');
+mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/file_locker');
 //one db, two collections
-
-process.env.APP_SECRET = process.env.APP_SECRET || 'changemechangemechangeme';
 
 var fileRouter = require(__dirname + '/routes/files_routes');
 var userRouter = require(__dirname + '/routes/users_routes');
