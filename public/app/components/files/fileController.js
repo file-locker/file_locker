@@ -12,48 +12,31 @@ app.controller('fileController', function ($scope, fileCryptService, fileTransfe
 
     $scope.modalShown = false;
 
-    $scope.toggleUpload = function () {
-        $scope.mode = 'upload';
-        $scope.toggleModal();
-    };
-
-    $scope.toggleDelete = function (file) {
-        $scope.targetFile = file;
-        $scope.mode = 'delete';
-        $scope.toggleModal();
-    };
-
-    $scope.toggleUpdate = function (file) {
-        $scope.targetFile = file;
-        $scope.mode = 'update';
-        $scope.toggleModal();
-    };
-
-    $scope.toggleDownload = function (file) {
-        $scope.targetFile = file || $scope.targetFile;
-        $scope.mode = 'download';
-        $scope.toggleModal();
-    };
-
     $scope.toggleModal = function () {
         $scope.modalShown = !$scope.modalShown;
+    };
+
+    $scope.toggleDialog = function(file, mode){
+        $scope.targetFile = file || $scope.targetFile;
+        $scope.mode = mode;
+        $scope.toggleModal();
     };
 
     $scope.upload = function () {
         var fileObj = {};
 
-        var fileInput = $('#fileinput')[0];
+        var fileInput = $scope.fileInput;
         fileObj.filename = fileInput.files[0].name;
         fileObj.size = fileInput.files[0].size;
-        fileObj.tags = $('#tags')[0].value;
-        fileObj.desc = $('#desc')[0].value;
+        fileObj.tags = $scope.tags;
+        fileObj.desc = $scope.desc;
 
         var reader = new FileReader();
         reader.onload = function (e) {
-            var encoded = fileCryptService.encrypt($scope, reader.result, $('#passphraseup')[0].value);
+            var encoded = fileCryptService.encrypt($scope, reader.result, $scope.passphraseup);
             fileObj.fileContent = encoded;
             var res = fileTransferService.post(fileObj);
-            res.success(function (data, status, headers, config) {
+            res.success(function () {
                 //TODO update user file list
                 $scope.toggleModal();
             });
@@ -66,12 +49,12 @@ app.controller('fileController', function ($scope, fileCryptService, fileTransfe
 
         var res = fileTransferService.get('nourl');
 
-        res.success(function(data, status, headers, config){
+        res.success(function(data){
             var trigger = document.createElement('a');
             try {
                 var file = {};
                 file.name = 'white';
-                var fileContents = fileCryptService.decrypt($scope, data, $('#passphrasedn')[0].value);
+                var fileContents = fileCryptService.decrypt($scope, data, $scope.passphrasedn);
                 trigger.setAttribute('href', window.URL.createObjectURL(fileContents));
                 trigger.setAttribute('download', file.name);
                 if (document.createEvent) {
@@ -101,9 +84,7 @@ app.controller('fileController', function ($scope, fileCryptService, fileTransfe
     };
 
     $scope.update = function (file) {
-        $scope.targetFile.name = $('#updName')[0].value;
-        $scope.targetFile.tags = $('#updTags')[0].value;
-        $scope.targetFile.desc = $('#updDesc')[0].value;
+
         $scope.toggleModal();
 
         //TODO send file update command

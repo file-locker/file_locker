@@ -4,8 +4,8 @@ app.directive('modalDialog', function() {
         scope: {
             show: '='
         },
-        replace: true, // Replace with the template below
-        transclude: true, // we want to insert custom content inside the directive
+        replace: true,
+        transclude: true,
         link: function(scope, element, attrs) {
             scope.dialogStyle = {};
             if (attrs.width)
@@ -16,6 +16,6 @@ app.directive('modalDialog', function() {
                 scope.show = false;
             };
         },
-        templateUrl: 'app/components/dialog/dialogView.html' // See below
+        templateUrl: 'app/components/dialog/dialogView.html'
     };
 });
