@@ -1,4 +1,4 @@
-app.controller('mainController', function ($scope) {
+app.controller('mainController', function ($scope, $rootScope) {
     $scope.pageName = 'File Locker';
     $scope.username = 'Test';
     $scope.fileCount = 12;
