@@ -7,6 +7,7 @@ The file locker acts as a personal cloud. First, a user must be created by POSTi
 
 create account/register -/fl/signup post
 user login -/fl/login get
+
 upload file /fl/upload post
 download file /fl/download get
 fetch file list /fl/allFiles get
