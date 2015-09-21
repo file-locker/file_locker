@@ -2,9 +2,9 @@
     <div class="col-lg-12">
         <h1 class="page-header">{{pageName}}
             <button type="button"
-                    class="btn btn-primary btn-lg" ng-click="toggleDialog(null, 'upload')">
-                <span
-                        class="fa fa-cloud-upload"></span> Upload File
+                    class="btn btn-primary btn-lg"
+                    ng-click="toggleDialog(null, 'upload')">
+                <span class="fa fa-cloud-upload"></span> Upload File
             </button>
         </h1>
     </div>
@@ -43,9 +43,9 @@
             <div class="form-group">
                 <div class="form-group">
                     <label>Tags</label>
-                    <input class="form-control" id="tags" ng-bind="tags">
+                    <input class="form-control" id="tags" ng-model="tags">
                     <label>Description</label>
-                    <input class="form-control" id="desc" ng-bind="desc">
+                    <input class="form-control" id="desc" ng-model="desc">
 
                     <p class="help-block">Enter a few tags and a description to
                         make
@@ -53,13 +53,13 @@
                 </div>
                 <div class="form-group">
                     <label>Select a file to upload</label>
-                    <input type="file" ng-bind="fileInput">
+                    <input type="file" ng-model="fileInput">
                 </div>
                 <div class="form-group has-error">
                     <label class="control-label">Enter an
                         encryption passphrase</label>
                     <input type="text" class="form-control"
-                           ng-bind="passphraseup">
+                           ng-model="passphraseup">
                 </div>
                 <button type="button" class="btn btn-success btn-lg"
                         id="upload" ng-click="upload()">Upload File
@@ -101,16 +101,16 @@
             <div class="form-group">
                 <div class="form-group">
                     <label>Filename</label>
-                    <input class="form-control" ng-bind="targetFile.name">
+                    <input class="form-control" ng-model="targetFile.name">
 
                     <p class="help-block">Change the current filename for this
                         file.</p>
                 </div>
                 <div class="form-group">
                     <label>Tags</label>
-                    <input class="form-control" ng-bind="targetFile.tags">
+                    <input class="form-control" ng-model="targetFile.tags">
                     <label>Description</label>
-                    <input class="form-control" ng-bind="targetFile.desc">
+                    <input class="form-control" ng-model="targetFile.desc">
 
                     <p class="help-block">Change the current description or tags
                         on this file.</p>
@@ -131,7 +131,7 @@
                     <label class="control-label">Enter the
                         encryption passphrase</label>
                     <input type="text" class="form-control"
-                           ng-bind="passphrasedn">
+                           ng-model="passphrasedn">
                 </div>
                 <button type="button" class="btn btn-primary btn-lg"
                         id="download" ng-click="download()">Download File
@@ -159,7 +159,8 @@
                 </div>
             </div>
             <button type="button" class="btn btn-danger btn-lg"
-                    id="tryagain" ng-click="toggleModal();toggleDialog(null, 'download')">Try
+                    id="tryagain"
+                    ng-click="toggleModal();toggleDialog(null, 'download')">Try
                 Again
             </button>
             <button type="button" class="btn btn-default btn-lg"

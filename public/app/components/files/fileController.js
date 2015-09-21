@@ -10,6 +10,8 @@ app.controller('fileController', function ($scope, fileCryptService, fileTransfe
         tags: "test fish water"
     }];
 
+
+
     $scope.modalShown = false;
 
     $scope.toggleModal = function () {
@@ -21,6 +23,7 @@ app.controller('fileController', function ($scope, fileCryptService, fileTransfe
         $scope.mode = mode;
         $scope.toggleModal();
     };
+
 
     $scope.upload = function () {
         var fileObj = {};
