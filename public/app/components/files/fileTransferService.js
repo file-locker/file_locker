@@ -8,10 +8,10 @@ module.exports = function ($http, fileCryptService) {
         fileObj.filename = fileInput.files[0].name;
         fileObj.size = fileInput.files[0].size;
         fileObj.tags = $scope.dialogConfig.tags;
-        fileObj.desc = $scope.dialogConfig.desc;
+        fileObj.description = $scope.dialogConfig.description;
 
         var reader = new FileReader();
-        reader.onload = function (err) {
+        reader.onload = function () {
             fileObj.fileContent = fileCryptService.encrypt($scope,
                 reader.result, $scope.configDialog.passphraseup);
             var res = $http.post('/', fileObj);

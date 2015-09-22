@@ -5,7 +5,7 @@ module.exports = function ($scope, fileTransferService) {
 
     $scope.files = [{
         name: "testfileone.txt",
-        desc: "This is a test file",
+        description: "This is a test file",
         size: 125,
         tags: "test fish water"
     }];
