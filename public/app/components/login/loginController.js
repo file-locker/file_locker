@@ -1,4 +1,6 @@
 module.exports = function ($scope, $http, $location) {
+    $scope.user = null;
+
     $scope.showSpinny = false;
 
     $scope.login = function () {
