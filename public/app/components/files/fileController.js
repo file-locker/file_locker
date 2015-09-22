@@ -10,7 +10,7 @@ module.exports = function ($scope, fileCryptService, fileTransferService) {
         tags: "test fish water"
     }];
 
-
+    $scope.dialogConfig = {};
 
     $scope.modalShown = false;
 
@@ -18,12 +18,28 @@ module.exports = function ($scope, fileCryptService, fileTransferService) {
         $scope.modalShown = !$scope.modalShown;
     };
 
-    $scope.toggleDialog = function(file, mode){
-        $scope.targetFile = file || $scope.targetFile;
-        $scope.mode = mode;
-        $scope.toggleModal();
+    $scope.dialogUpload = function () {
+        dialogToggle('upload', null, $scope.upload);
     };
 
+    $scope.dialogDownload = function (file) {
+        dialogToggle('download', file, $scope.download);
+    };
+
+    $scope.dialogUpdate = function (file) {
+        dialogToggle('update', file, $scope.update);
+    };
+
+    $scope.dialogDelete = function (file) {
+        dialogToggle('delete', file, $scope.deleteFile);
+    };
+
+    var dialogToggle = function (mode, file, callback) {
+        $scope.dialogConfig.mode = mode;
+        $scope.dialogConfig.file = file;
+        $scope.dialogConfig.callback = callback;
+        $scope.modalShown = true;
+    };
 
     $scope.upload = function () {
         var fileObj = {};
@@ -48,11 +64,11 @@ module.exports = function ($scope, fileCryptService, fileTransferService) {
         reader.readAsArrayBuffer(fileInput.files[0]);
     };
 
-    $scope.download = function (file) {
+    $scope.download = function () {
 
         var res = fileTransferService.get('nourl');
 
-        res.success(function(data){
+        res.success(function (data) {
             var trigger = document.createElement('a');
             try {
                 var file = {};
@@ -74,19 +90,19 @@ module.exports = function ($scope, fileCryptService, fileTransferService) {
             }
         });
 
-        res.error(function(data, status, headers, config){
+        res.error(function (data, status, headers, config) {
             alert('error');
         });
 
     };
 
-    $scope.deleteFile = function (file) {
+    $scope.deleteFile = function () {
 
         //TODO send delete request
 
     };
 
-    $scope.update = function (file) {
+    $scope.update = function () {
 
         $scope.toggleModal();
 
