@@ -22,11 +22,11 @@ filesRoute.post('/upload', jsonParser, function(req, res) {
   upload(req, res);
 });
 
-filesRoute.get('/userFiles', jsonParser, function(req, res) {
+filesRoute.get('/userFiles', function(req, res) {
   userFiles(req, res);
 });
 
-filesRoute.patch('/updateFile/:id', function(req, res) {
+filesRoute.patch('/updateFile/:id', jsonParser, function(req, res) {
   updateFile(req, res);
 });
 

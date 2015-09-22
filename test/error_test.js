@@ -16,7 +16,7 @@ describe('Error Handling', function() {
     }.bind(this),
     this.json = function(msg) {
       this.jsonMsg = msg;
-    }.bind(this)
+    }.bind(this);
   }
 
   beforeEach(function() {
