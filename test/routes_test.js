@@ -52,12 +52,29 @@ describe('files routes', function() {
       chai.request('localhost:3000/fl')
       .get('/download/' + data._id.toString())
       .end(function(err, res) {
-        debugger;
         expect(err).to.eql(null)
         expect(res.body.msg.fileContents).to.eql('file contents here');
         done();
       });
     }.bind(this));
+  });
+
+  it('should be able to upload a file', function(done) {
+    chai.request('localhost:3000/fl')
+    .post('/upload')
+    .send({
+      name: 'test name',
+      tags: 'its okay',
+      description: 'this is a test',
+      fileContents: 'here are the contents',
+      createdBy: 'testuser',
+      orgFileSize: 100
+    })
+    .end(function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.body.msg.fileContents).to.eql('here are the contents');
+      done();
+    });
   });
 
 });

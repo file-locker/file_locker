@@ -18,7 +18,7 @@ filesRoute.get('/download/:id', function(req, res) {
   download(req, res);
 });
 
-filesRoute.post('/upload', function(req, res) {
+filesRoute.post('/upload', jsonParser, function(req, res) {
   upload(req, res);
 });
 
