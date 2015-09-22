@@ -16,15 +16,16 @@ describe('files routes', function() {
     var testFile = new File();
     testFile.fileContents = 'file contents here';
     testFile.save(function(err, data) {
-      if (err) return handleError.err500(err, res);
-      var testMeta = new Metadata();
-      testMeta.fileLink = data._id.toString(); //need toString here to convert.
-      testMeta.tags = 'buggy';
+      var meta = new Metadata();
+      meta.fileLink = data._id.toString();
+      meta.name = 'ITS A TEST';
+      meta.tags = 'buggy';
+
+      var testMeta = new Metadata(meta);
       testMeta.save(function(err, data) {
-        if (err) return handleError.err500(err, res);
       });
     });
-    var testMeta = new Metadata();
+ //need to save metadata
 //create files to download/update/delete
 //use a mongoose check to check existence
   });
@@ -38,7 +39,7 @@ describe('files routes', function() {
 
   it('should return 404 if download id doesn\'t exist', function(done) {
     chai.request('localhost:3000/fl')
-    .get('/download/18798') //random id of file
+    .get('/download/18798') //random id of non-existent file
     .end(function(err, res) {
       expect(err).to.eql(null);
       expect(res.status).to.eql(404);
@@ -47,7 +48,7 @@ describe('files routes', function() {
     });
   });
 
-  it('should be able to download the test file', function(done) {
+  it('should download the test file', function(done) {
     File.findOne({}, function(err, data) { //find saved file from Before block
       chai.request('localhost:3000/fl')
       .get('/download/' + data._id.toString())
@@ -59,7 +60,7 @@ describe('files routes', function() {
     }.bind(this));
   });
 
-  it('should be able to upload a file', function(done) {
+  it('should upload a file', function(done) {
     chai.request('localhost:3000/fl')
     .post('/upload')
     .send({
@@ -77,4 +78,32 @@ describe('files routes', function() {
     });
   });
 
+
+  //waiting until can pull username from headers
+  it('should return a list of current user\'s files');
+  // it('should return a list of a users files', function(done) {
+  //   chai.request('localhost:3000/fl')
+  //   .get('/userFiles')
+  //   .end(function(err, res) {
+  //     expect(err).to.eql(null);
+  //     expect(res.body.msg.length).to.be.above(0);
+  //     done();
+  //   });
+  // });
+  
+  it('should be able to update a file');
+
+  it('should remove a file', function(done) {
+    Metadata.findOne({name: 'ITS A TEST'}, function(err, data) {
+      chai.request('localhost:3000/fl')
+      .delete('/removeFile/' + data._id.toString())
+      .end(function(err, res) {
+        expect(err).to.eql(null);
+        expect(res.body.msg).to.eql('deleting');
+        done();
+      });
+    });
+  });
+
+  it('should give stats on all data');
 });

@@ -22,7 +22,7 @@ filesRoute.post('/upload', jsonParser, function(req, res) {
   upload(req, res);
 });
 
-filesRoute.get('/userFiles', function(req, res) {
+filesRoute.get('/userFiles', jsonParser, function(req, res) {
   userFiles(req, res);
 });
 
