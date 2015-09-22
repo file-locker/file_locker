@@ -25,9 +25,6 @@ describe('files routes', function() {
       testMeta.save(function(err, data) {
       });
     });
- //need to save metadata
-//create files to download/update/delete
-//use a mongoose check to check existence
   });
 
   after(function(done) {
@@ -105,5 +102,15 @@ describe('files routes', function() {
     });
   });
 
-  it('should give stats on all data');
+  it('should give stats on all data', function(done) {
+    chai.request('localhost:3000/fl')
+    .get('/dataStats')
+    .end(function(err, res) {
+      debugger;
+      expect(err).to.eql(null);
+      expect(res.body.msg.fileCount).to.be.above(0);
+      expect(res.body.msg.diskSize).to.be.above(0);
+      done();
+    });
+  });
 });
