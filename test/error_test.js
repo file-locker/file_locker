@@ -8,12 +8,12 @@ describe('Error Handling', function() {
 
   var res;
   function Res() {
-    this.statusCode = 0,
-    this.jsonMsg = {},
+    this.statusCode = 0;
+    this.jsonMsg = {};
     this.status = function(code) {
       this.statusCode = code;
       return this;
-    }.bind(this),
+    }.bind(this);
     this.json = function(msg) {
       this.jsonMsg = msg;
     }.bind(this);
