@@ -1,4 +1,22 @@
-app.config(function ($routeProvider, $locationProvider) {
+module.exports = function ($routeProvider, $locationProvider) {
+
+    var checkUser = function ($q, $rootScope, $location, $http) {
+        if ($rootScope.user) {
+            return true;
+        } else {
+            var deferred = $q.defer();
+            $http.post("/signin", {userToken: "blah"})
+                .success(function (response) {
+                    $rootScope.user = response.user;
+                    deferred.resolve(true);
+                })
+                .error(function () {
+                    deferred.reject();
+                    $location.path("/signin");
+                });
+            return deferred.promise;
+        }
+    };
 
     $routeProvider
         .when('/', {
@@ -49,22 +67,5 @@ app.config(function ($routeProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
 
-});
-
-var checkUser= function ($q, $rootScope, $location, $http) {
-    if ($rootScope.user) {
-        return true;
-    } else {
-        var deferred = $q.defer();
-        $http.post("/signin", { userToken: "blah" })
-            .success(function (response) {
-                $rootScope.user = response.user;
-                deferred.resolve(true);
-            })
-            .error(function () {
-                deferred.reject();
-                $location.path("/signin");
-            });
-        return deferred.promise;
-    }
 };
+

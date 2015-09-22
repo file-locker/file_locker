@@ -1,4 +1,4 @@
-app.factory('fileTransferService', function ($http) {
+module.exports = function ($http) {
     var fileTransferService = {};
 
     fileTransferService.post = function(postObj){
@@ -11,4 +11,4 @@ app.factory('fileTransferService', function ($http) {
 
     return fileTransferService;
 
-});
+};

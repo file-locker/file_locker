@@ -1,4 +1,4 @@
-app.factory('fileCryptService', function () {
+module.exports = function () {
     var fileCryptService = {};
 
     fileCryptService.encrypt = function ($scope, blob, pass) {
@@ -28,4 +28,4 @@ app.factory('fileCryptService', function () {
     };
 
     return fileCryptService;
-});
+};

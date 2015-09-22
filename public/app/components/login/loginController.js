@@ -1,5 +1,3 @@
-app.controller('loginController', function ($scope) {
+module.exports = function ($scope) {
     $scope.pageName = "Sign In";
-
-
-});
+};

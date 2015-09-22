@@ -1,4 +1,4 @@
-app.directive('modalDialog', function() {
+module.exports = function() {
     return {
         restrict: 'E',
         scope: {
@@ -18,4 +18,4 @@ app.directive('modalDialog', function() {
         },
         templateUrl: 'app/components/dialog/dialogView.html'
     };
-});
+};

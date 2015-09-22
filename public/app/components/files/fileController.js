@@ -1,4 +1,4 @@
-app.controller('fileController', function ($scope, fileCryptService, fileTransferService) {
+module.exports = function ($scope, fileCryptService, fileTransferService) {
     $scope.pageName = 'File Locker';
 
     //TODO get user file list
@@ -94,4 +94,4 @@ app.controller('fileController', function ($scope, fileCryptService, fileTransfe
 
     };
 
-});
+};
