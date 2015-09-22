@@ -42,20 +42,22 @@ module.exports = function ($scope, fileTransferService) {
     };
 
     $scope.upload = function () {
-        $scope.fileTransferService.post($scope, $scope.fileOperationSuccess,
+        fileTransferService.post($scope, $scope.fileOperationSuccess,
             $scope.fileOperationError);
     };
 
     $scope.download = function (file) {
-        $scope.fileTransferService.get($scope, file, $scope.fileOperationError);
+        fileTransferService.get($scope, file, $scope.fileOperationError);
     };
 
     $scope.deleteFile = function () {
-
+        fileTransferService.deleteFile($scope, file, $scope.fileOperationSuccess,
+            $scope.fileOperationError);
     };
 
     $scope.update = function () {
-
+        fileTransferService.update($scope, file, $scope.fileOperationSuccess,
+            $scope.fileOperationError);
     };
 
     $scope.fileOperationSuccess = function () {
