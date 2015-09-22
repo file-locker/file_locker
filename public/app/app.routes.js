@@ -5,7 +5,10 @@ module.exports = function ($routeProvider, $locationProvider) {
             return true;
         } else {
             var deferred = $q.defer();
-            $http.post("/signin", {userToken: "blah"})
+            deferred.reject();
+            $location.path("/signin");
+            return deferred.promise;
+/*            $http.post("/signin", {userToken: "blah"})
                 .success(function (response) {
                     $rootScope.user = response.user;
                     deferred.resolve(true);
@@ -14,7 +17,7 @@ module.exports = function ($routeProvider, $locationProvider) {
                     deferred.reject();
                     $location.path("/signin");
                 });
-            return deferred.promise;
+            return deferred.promise;*/
         }
     };
 
