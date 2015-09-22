@@ -92,17 +92,17 @@ describe('files routes', function() {
     Metadata.findOne({name: 'ITS A TEST'}, function(err, data) {
       chai.request('localhost:3000/fl')
       .patch('/updateFile/' + data._id.toString())
-      .send({name: 'potato file', tags: 'you\'re it', description: 'it just sits there'})
+      .send({name: 'updated filename', tags: 'you\'re it', description: 'it just sits there'})
       .end(function(err, res) {
         expect(err).to.eql(null);
-        expect(res.body.msg).to.eql('Updating metadata');
+        expect(res.body.msg.name).to.eql('updated filename');
         done();
       });
     });
   });
 
   it('should remove a file', function(done) {
-    Metadata.findOne({name: 'ITS A TEST'}, function(err, data) {      chai.request('localhost:3000/fl')
+    Metadata.findOne({name: 'updated filename'}, function(err, data) {      chai.request('localhost:3000/fl')
       .delete('/removeFile/' + data._id.toString())
       .end(function(err, res) {
         expect(err).to.eql(null);
@@ -117,8 +117,8 @@ describe('files routes', function() {
     .get('/dataStats')
     .end(function(err, res) {
       expect(err).to.eql(null);
-      expect(res.body.msg.fileCount).to.be.above(0);
-      expect(res.body.msg.diskSize).to.be.above(0);
+      expect(typeof res.body.msg.fileCount).to.eql('number');
+      expect(typeof res.body.msg.diskSize).to.eql('number');
       done();
     });
   });
