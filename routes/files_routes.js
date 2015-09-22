@@ -2,7 +2,7 @@
 
 var express = require('express');
 var jsonParser = require('body-parser').json();
-var File = require(__dirname + '/../models/File');
+var File = require(__dirname + '/../models/file');
 //passport req will go here
 
 var download = require(__dirname + '/../lib/download');

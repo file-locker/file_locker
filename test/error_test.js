@@ -19,11 +19,11 @@ describe('Error Handling', function() {
     }.bind(this)
   }
 
-  before(function() {
+  beforeEach(function() {
     res = new Res();
   });
 
-  it('it should handle a 401 error', function() {
+  it('should handle a 401 error', function() {
     handleError.err401(null, res);
     expect(res.statusCode).to.eql(401);
     expect(res.jsonMsg.msg).to.eql('Forbidden');
