@@ -16,7 +16,7 @@ describe('files routes', function() {
     var testFile = new File();
     testFile.fileContents = 'file contents here';
     testFile.save(function(err, data) {
-      var meta = new Metadata();
+      var meta = {};
       meta.fileLink = data._id.toString();
       meta.name = 'ITS A TEST';
       meta.tags = 'buggy';
