@@ -9,13 +9,6 @@ var bearerStrategy = require('passport-http-bearer').Strategy;
 var handleError = require(__dirname + '/../lib/handle_error');
 
 
-var download = require(__dirname + '/../lib/download');
-var upload = require(__dirname + '/../lib/upload');
-var userFiles = require(__dirname + '/../lib/user_files');
-var updateFile = require(__dirname + '/../lib/update_file');
-var removeFile = require(__dirname + '/../lib/remove_file');
-var dataStats = require(__dirname + '/../lib/data_stats');
-
 var filesRoute = module.exports = exports = express.Router();
 filesRoute.use(passport.initialize());
 
@@ -29,27 +22,33 @@ passport.use(new bearerStrategy(
   }
 ));
 
-filesRoute.get('/download/:id', passport.authenticate('bearer', { session: false }), function(req, res) {
+filesRoute.get('/files/:id', passport.authenticate('bearer', { session: false }), function(req, res) {
+  var download = require(__dirname + '/../lib/download');
   download(req, res);
 });
 
-filesRoute.post('/upload', passport.authenticate('bearer', { session: false }), jsonParser, function(req, res) {
+filesRoute.post('/files', passport.authenticate('bearer', { session: false }), jsonParser, function(req, res) {
+  var upload = require(__dirname + '/../lib/upload');
   upload(req, res);
 });
 
-filesRoute.get('/userFiles', passport.authenticate('bearer', { session: false }), function(req, res) {
-  userFiles(req, res);
-});
-
-filesRoute.patch('/updateFile/:id', passport.authenticate('bearer', { session: false }), jsonParser, function(req, res) {
+filesRoute.patch('/files/:id', passport.authenticate('bearer', { session: false }), jsonParser, function(req, res) {
+  var updateFile = require(__dirname + '/../lib/update_file');
   updateFile(req, res);
 });
 
-filesRoute.delete('/user/removeFile/:id', passport.authenticate('bearer', { session: false }), function(req, res) {
+filesRoute.delete('/files/:id', passport.authenticate('bearer', { session: false }), function(req, res) {
+  var removeFile = require(__dirname + '/../lib/remove_file');
   removeFile(req, res);
 });
 
+filesRoute.get('/userFiles', passport.authenticate('bearer', { session: false }), function(req, res) {
+  var userFiles = require(__dirname + '/../lib/user_files');
+  userFiles(req, res);
+});
+
 filesRoute.get('/dataStats', passport.authenticate('bearer', { session: false }), function(req, res) {
+  var dataStats = require(__dirname + '/../lib/data_stats');
   dataStats(req, res);
 });
 
