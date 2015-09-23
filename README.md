@@ -3,16 +3,31 @@
 This is our group project for week 4 of the JavaScript Full-Stack Development Accelerator.
 The file locker acts as a personal cloud. First, a user must be created by POSTing to the /api/signup route. Once a user is created and authenticated, the file locker is ready for use. 
 
-//end points:
+### Functions that need a file id:
 
-create account/register -/fl/signup post
-user login -/fl/login get
+Download a file:
 
-upload file /fl/upload post
-download file /fl/download get
-fetch file list /fl/allFiles get
-delete file /fl/removeFile delete
-patch meta data (tags) /fl/updateFile patch
-secret cow level /fl/moo get
-global data /fl/dataStats get
+```GET /download/:id```
 
+Update a file: (metadata)
+
+```PATCH /updateFile/:id```
+
+Remove a file:
+
+```DELETE /removeFile/:id```
+
+
+### Functions that do not need a file id:
+
+Upload a file:
+
+```POST /upload```
+
+Get a list of current user's files:
+
+```GET /userFiles```
+
+Get metadata for stored files:
+
+```GET /dataStats```
