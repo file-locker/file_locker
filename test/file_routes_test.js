@@ -16,12 +16,11 @@ describe('creating new user', function() {
   before(function(done) {
   var newUser = new User();
   newUser.username = 'user';
-  newUser.basic.username = 'user';
     newUser.generateHash('testpass', function(err, hash) {
       if (err) throw err;
       newUser.generateToken(function(err, token) {
         if (err) throw err;
-        newUser.basic.token = token;
+        newUser.token = token;
         newUser.save(function(err, data) {
           if (err) throw err;
           testUser = data;
@@ -39,8 +38,8 @@ describe('creating new user', function() {
 
   it('/user/dataStats get test', function(done) {
     chai.request(host)
-      .get('/user/dataStats')
-      .set('authorization', 'BEARER ' + testUser.basic.token)
+      .get('/dataStats')
+      .set('authorization', 'BEARER ' + testUser.token)
       .end(function(err, res) {
         console.log('res body: ', res.body);
         expect(err).to.eql(null);

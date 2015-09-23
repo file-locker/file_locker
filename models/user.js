@@ -6,24 +6,21 @@ var eat = require('eat');
 
 var userSchema = new mongoose.Schema({
   username: String,
-  basic: {
-    username: String,
-    password: String,
-    email: String,
-    token: String
-  }
+  password: String,
+  email: String,
+  token: String
 });
 
 userSchema.methods.generateHash = function(password, callback) {
   bcrypt.hash(password, 8, function(err, hash) {
     if (err) return callback(err);
-    this.basic.password = hash;
+    this.password = hash;
     callback(null, hash);
   }.bind(this));
 };
 
 userSchema.methods.compareHash = function(password, callback) {
-  bcrypt.compare(password, this.basic.password, callback);
+  bcrypt.compare(password, this.password, callback);
 };
 
 userSchema.methods.generateToken = function(callback) {

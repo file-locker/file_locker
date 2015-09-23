@@ -29,13 +29,12 @@ passport.use(new basicStrategy(
 usersRoute.post('/signup', jsonParser, function(req, res) {
   var newUser = new User();
   newUser.username = req.body.username;
-  newUser.basic.username = req.body.username;
-  newUser.basic.email = req.body.email;
+  newUser.email = req.body.email;
   newUser.generateHash(req.body.password, function(err, hash) {
     if (err) throw err; //Change to proper err handler
     newUser.save(function(err, data) {
       if (err) throw err; //probably change this one as well
-      res.json({msg: 'account created!'});
+      res.json({ msg: 'account created!' });
     });
   });
 });
@@ -45,9 +44,8 @@ usersRoute.get('/signin', passport.authenticate('basic', { session: false }), fu
     if (err) throw err; //Stop being lazy and require in the error handler
     req.user.save(function(err, data) {
       if (err) throw err;
-      data.basic.token = token;
-      res.json({user: data});
+      data.token = token;
+      res.json({ user: data });
     });
   });
 });
-

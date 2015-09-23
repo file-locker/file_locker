@@ -34,7 +34,7 @@ describe('user login/signup test', function() {
       .auth('test', 'user')
       .end(function(err, res) {
         expect(err).to.eql(null);
-        expect(res.body.user.basic.token).to.be.a('string');
+        expect(res.body.user.token).to.be.a('string');
         done();
       });
   });
