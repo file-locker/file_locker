@@ -14,7 +14,7 @@ module.exports = function ($http, fileCryptService) {
         reader.onload = function () {
             fileObj.fileContent = fileCryptService.encrypt($scope,
                 reader.result, $scope.configDialog.passphraseup);
-            var res = $http.post('/', fileObj);
+            var res = $http.post('/fl/files', fileObj);
             res.success(function () {
                 callback();
             });
@@ -26,7 +26,7 @@ module.exports = function ($http, fileCryptService) {
     };
 
     fileTransferService.get = function ($scope, file, callbackerr) {
-        var res = $http.get('/' + file.id);
+        var res = $http.get('/fl/files' + file.id);
 
         res.success(function (data) {
             var trigger = document.createElement('a');
@@ -54,7 +54,7 @@ module.exports = function ($http, fileCryptService) {
     };
 
     fileTransferService.deleteFile = function ($scope, file, callback, callbackerr) {
-        var res = $http.delete('/' + file.id);
+        var res = $http.delete('/fl/files' + file.id);
 
         res.success(function () {
             callback();
@@ -66,7 +66,7 @@ module.exports = function ($http, fileCryptService) {
     };
 
     fileTransferService.updateFile = function ($scope, file, callback, callbackerr) {
-        var res = $http.patch('/' + file.id);
+        var res = $http.patch('/fl/files' + file.id);
 
         res.success(function () {
             callback();

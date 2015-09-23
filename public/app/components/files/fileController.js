@@ -1,7 +1,7 @@
 module.exports = function ($scope, fileTransferService) {
     $scope.pageName = 'File Locker';
 
-    //TODO get user file list
+    //TODO remove list stub
 
     $scope.files = [{
         name: "testfileone.txt",
@@ -10,6 +10,7 @@ module.exports = function ($scope, fileTransferService) {
         tags: "test fish water"
     }];
 
+    $scope.showSpinny = false;
     $scope.dialogConfig = {};
 
     $scope.modalShown = false;
@@ -42,30 +43,36 @@ module.exports = function ($scope, fileTransferService) {
     };
 
     $scope.upload = function () {
+        $scope.showSpinny = true;
         fileTransferService.post($scope, $scope.fileOperationSuccess,
             $scope.fileOperationError);
     };
 
     $scope.download = function (file) {
+        $scope.showSpinny = true;
         fileTransferService.get($scope, file, $scope.fileOperationError);
     };
 
-    $scope.deleteFile = function () {
+    $scope.deleteFile = function (file) {
+        $scope.showSpinny = true;
         fileTransferService.deleteFile($scope, file, $scope.fileOperationSuccess,
             $scope.fileOperationError);
     };
 
-    $scope.update = function () {
+    $scope.update = function (file) {
+        $scope.showSpinny = true;
         fileTransferService.update($scope, file, $scope.fileOperationSuccess,
             $scope.fileOperationError);
     };
 
     $scope.fileOperationSuccess = function () {
+        $scope.showSpinny = false;
         $scope.toggleModal();
         $scope.dialogConfig = {};
     };
 
     $scope.fileOperationError = function (err) {
+        $scope.showSpinny = false;
         $scope.toggleModal();
         $scope.dialogConfig = {};
     };
