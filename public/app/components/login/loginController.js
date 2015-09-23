@@ -4,26 +4,22 @@ module.exports = function ($scope, $http, $location, $rootScope) {
     $scope.showSpinny = false;
 
     $scope.login = function () {
-        //TODO remove test stub
-        $rootScope.user = 'testuser';
-        $location.path('/');
-        return;
-
         $scope.showSpinny = true;
-        $http.defaults.headers.common.Authorization = 'BASIC ' +
+        $http.defaults.headers.common['Authorization'] = 'BASIC ' +
             btoa($scope.username + ':' + $scope.password);
 
-        var res = $http.get('/fl/signin', {});
+        var res = $http.get('/fl/signin');
 
         res.success(function (data){
-            $rootScope.user = data;
-            $http.defaults.headers.common.Authorization = 'BEARER ' + data.token;
+            $rootScope.user = data.user;
+            $http.defaults.headers.common.Authorization = 'BEARER ' + data.user.token;
             $scope.showSpinny = false;
             $location.path('/');
         });
 
         res.error(function(){
             $scope.wrongPass = true;
+            $scope.showSpinny = false;
             $http.defaults.headers.common.Authorization = '';
         });
 

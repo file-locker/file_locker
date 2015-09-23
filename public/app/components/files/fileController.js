@@ -1,14 +1,24 @@
-module.exports = function ($scope, fileTransferService) {
+module.exports = function ($scope, fileTransferService, $http, $rootScope) {
     $scope.pageName = 'File Locker';
+    $scope.user = $rootScope.user;
 
     //TODO remove list stub
 
-    $scope.files = [{
-        name: "testfileone.txt",
-        description: "This is a test file",
-        size: 125,
-        tags: "test fish water"
-    }];
+    $scope.files = [{}];
+
+    $scope.getFileList = function () {
+        var res = $http.get('/fl/userFiles/');
+
+        res.success(function(data){
+            $scope.files = data.msg;
+        });
+
+        res.error(function(data){
+            $scope.successMessage = 'No files found.  Upload when ready!';
+        })
+    };
+
+    $scope.getFileList();
 
     $scope.showSpinny = false;
     $scope.dialogConfig = {};
@@ -71,6 +81,7 @@ module.exports = function ($scope, fileTransferService) {
         $scope.dialogConfig = {};
         $scope.errorMessage = '';
         $scope.successMessage = message;
+        $scope.getFileList();
     };
 
     $scope.fileOperationError = function (message) {

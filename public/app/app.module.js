@@ -4,6 +4,7 @@ var app = angular.module('main', [require('angular-bsfy/route').name]);
 
 require('./components/home/index');
 require('./components/waiting/index');
+require('./components/register/index');
 require('./components/login/index');
 require('./components/user/index');
 require('./components/dialog/index');

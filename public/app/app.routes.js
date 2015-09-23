@@ -4,20 +4,7 @@ module.exports = function ($routeProvider, $locationProvider) {
         if ($rootScope.user) {
             return true;
         } else {
-            var deferred = $q.defer();
-            deferred.reject();
-            $location.path("/signin");
-            return deferred.promise;
-/*            $http.post("/signin", {userToken: "blah"})
-                .success(function (response) {
-                    $rootScope.user = response.user;
-                    deferred.resolve(true);
-                })
-                .error(function () {
-                    deferred.reject();
-                    $location.path("/signin");
-                });
-            return deferred.promise;*/
+            $location.path('/signin');
         }
     };
 
@@ -61,11 +48,18 @@ module.exports = function ($routeProvider, $locationProvider) {
         .when('/signin', {
             templateUrl: 'app/components/login/loginView.html',
             controller: 'loginController'
-
         })
         .when('/signin.html', {
             templateUrl: 'app/components/login/loginView.html',
             controller: 'loginController'
+        })
+        .when('/signup', {
+            templateUrl: 'app/components/register/registerView.html',
+            controller: 'registerController'
+        })
+        .when('/signup.html', {
+            templateUrl: 'app/components/register/registerView.html',
+            controller: 'registerController'
         });
 
     $locationProvider.html5Mode(true);

@@ -1,8 +1,4 @@
-module.exports = function ($scope) {
+module.exports = function ($scope, $rootScope) {
     $scope.pageName = 'User Profile';
-    $scope.user = {
-        name: 'Test User',
-        email: 'test@nowhere.com'
-    };
-
+    $scope.user = $rootScope.user;
 };

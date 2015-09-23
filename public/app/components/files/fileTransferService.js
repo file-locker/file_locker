@@ -4,22 +4,24 @@ module.exports = function ($http, fileCryptService) {
     fileTransferService.post = function ($scope, callback, callbackerr) {
 
         var fileObj = {};
-        var fileInput = $scope.dialogConfig.fileInput;
-        fileObj.filename = fileInput.files[0].name;
-        fileObj.size = fileInput.files[0].size;
+        var fileInput = document.getElementById('uploadfile');
+        console.log($scope.user);
+        fileObj.name = fileInput.files[0].name;
+        fileObj.orgFileSize = fileInput.files[0].size;
         fileObj.tags = $scope.dialogConfig.tags;
         fileObj.description = $scope.dialogConfig.description;
+        fileObj.createdBy = $scope.user.username;
 
         var reader = new FileReader();
         reader.onload = function () {
-            fileObj.fileContent = fileCryptService.encrypt($scope,
-                reader.result, $scope.configDialog.passphraseup);
+            fileObj.fileContents = fileCryptService.encrypt($scope,
+                reader.result, $scope.dialogConfig.passphraseup);
             var res = $http.post('/fl/files', fileObj);
             res.success(function () {
-                callback(fileObj.filename + ' encrypted and uploaded.');
+                callback(fileObj.name + ' encrypted and uploaded.');
             });
             res.error(function (err) {
-                callbackerr('Could not upload ' + fileObj.filename + '. ' + err);
+                callbackerr('Could not upload ' + fileObj.name + '. ' + err);
             });
         }.bind(this);
         reader.readAsArrayBuffer(fileInput.files[0]);
@@ -32,7 +34,7 @@ module.exports = function ($http, fileCryptService) {
             var trigger = document.createElement('a');
             try {
                 var fileContents = fileCryptService.decrypt($scope, data,
-                    $scope.configDialog.passphrasedn);
+                    $scope.dialogConfig.passphrasedn);
                 trigger.setAttribute('href', window.URL.createObjectURL(fileContents));
                 trigger.setAttribute('download', file.name);
                 if (document.createEvent) {

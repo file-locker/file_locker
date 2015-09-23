@@ -4,8 +4,7 @@ module.exports = function () {
     fileCryptService.encrypt = function ($scope, blob, pass) {
 
         var data = blob;
-        var decoder = new TextDecoder.decoder('utf-8');
-        data = 'fllock' + decoder.decode(data);
+        data = 'fllock' + data;
         return CryptoJS.AES.encrypt(data, pass).toString();
 
     };

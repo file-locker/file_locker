@@ -13,21 +13,12 @@
                     </div>
                     <div class="col-xs-1"> </div>
                     <div class="col-xs-8 text-right">
-                        <div class="huge">{{fileCount}}</div>
-                        <div ng-if="!username">Files in the cloud</div>
-                        <div ng-if="username">Files in your cloud</div>
+                        <div ng-if="!user"> <h2>Store your files in the cloud securely</h2> </div>
+                        <div class="huge">{{user.fileCount}}</div>
+                        <div ng-if="user">Files in your cloud </div>
                     </div>
                 </div>
             </div>
-            <a href="#" ng-if="username">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i
-                            class="fa fa-arrow-circle-right"></i></span>
-
-                    <div class="clearfix"></div>
-                </div>
-            </a>
         </div>
     </div>
     <div class="col-lg-3 col-md-6">
@@ -39,25 +30,16 @@
                     </div>
                     <div class="col-xs-1"> </div>
                     <div class="col-xs-8 text-right">
-                        <div class="huge">{{fileSizes}}</div>
-                        <div ng-if="!username">Megabytes in the cloud </div>
-                        <div ng-if="username">Megabytes in your cloud </div>
+                        <div ng-if="!user"> <h2>Store your megabytes in our cloud</h2> </div>
+                        <div class="huge">{{user.fileSizes}}</div>
+                        <div ng-if="user">Megabytes in your cloud </div>
                     </div>
                 </div>
             </div>
-            <a href="#" ng-if="username">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i
-                            class="fa fa-arrow-circle-right"></i></span>
-
-                    <div class="clearfix"></div>
-                </div>
-            </a>
         </div>
     </div>
 </div>
-<h3><span>Welcome to File Locker<span ng-if="username">, {{username}}</span>.
+<h3><span>Welcome to File Locker<span ng-if="user.username">, {{user.username}}</span>.
 </h3>
 <p>A super secure file storage system. Really! We can't even read what you
     upload! Maybe the NSA can, but most people can't! Protect your data

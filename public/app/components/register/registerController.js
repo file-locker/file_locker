@@ -1,9 +1,9 @@
-module.exports = function ($scope, $http, $location, $httpProvider) {
+module.exports = function ($scope, $http, $location, $rootScope) {
     $scope.pageName = 'Sign Up';
     $scope.problemMsg = '';
     $scope.showSpinny = false;
 
-    $scope.register = function () {
+    $scope.registerUser = function () {
         if ($scope.password != $scope.password2) {
             $scope.problemMsg = 'Passwords do not match';
             return false;
@@ -18,7 +18,7 @@ module.exports = function ($scope, $http, $location, $httpProvider) {
         res.success(function(data){
             $scope.showSpinny = false;
             $rootScope.user = data;
-            $httpProvider.defaults.headers.common.Authorization = 'BEARER ' + data.token;
+            $http.defaults.headers.common['Authorization'] = 'BEARER ' + data.token;
             $location.path('/');
         });
         res.error(function(data){
