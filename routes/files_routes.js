@@ -8,7 +8,6 @@ var passport = require('passport');
 var bearerStrategy = require('passport-http-bearer').Strategy;
 var handleError = require(__dirname + '/../lib/handle_error');
 
-
 var filesRoute = module.exports = exports = express.Router();
 filesRoute.use(passport.initialize());
 
@@ -53,9 +52,9 @@ filesRoute.get('/dataStats', passport.authenticate('bearer', { session: false })
 });
 
 filesRoute.get('/signout', passport.authenticate('bearer', { session: false }), function(req, res) {
-  if (!req.user) res.json('sign out failed');
+  if (!req.user) res.json({ msg: 'sign out failed' });
   req.token = '';
-  req.save(function(err, data) {
+  req.user.save(function(err, data) {
     if (err) throw err;
     res.json({ msg: 'sign out successful' });
   });

@@ -11,6 +11,8 @@ var User = require(__dirname + '/../models/user');
 var host = 'localhost:3000/fl';
 
 describe('user login/signup test', function() {
+  var userToken;
+
   after(function(done) {
     mongoose.connection.db.dropDatabase(function() {
       done();
@@ -33,10 +35,21 @@ describe('user login/signup test', function() {
       .get('/signin')
       .auth('test', 'user')
       .end(function(err, res) {
+        userToken = res.body.user.token;
         expect(err).to.eql(null);
         expect(res.body.user.token).to.be.a('string');
         done();
       });
+  });
+
+  it('should log the user out', function(done) {
+    chai.request('host')
+    .get('/signout')
+    .set('authorization', 'BEARER ' + userToken)
+    .end(function(err, res) {
+      expect(err).to.eql(null);
+      done();
+    });
   });
 });
 

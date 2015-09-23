@@ -6,6 +6,7 @@ var passport = require('passport');
 var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/file_locker');
 process.env.APP_SECRET = 'tortilla';
+process.env.INVITATION_CODE = 'FLInvitationCode';
 //one db, two collections
 
 var fileRouter = require(__dirname + '/routes/files_routes');
