@@ -11,6 +11,7 @@ process.env.APP_SECRET = 'tortilla';
 var fileRouter = require(__dirname + '/routes/files_routes');
 var userRouter = require(__dirname + '/routes/users_routes');
 
+app.use(express.static('public'));
 app.use(passport.initialize());
 app.use('/fl/', fileRouter);
 app.use('/fl/', userRouter);
