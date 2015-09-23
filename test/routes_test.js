@@ -99,9 +99,8 @@ describe('files routes', function() {
     });
   });
 
-  //waiting until can pull username from headers
   it('should return a list of current user\'s files');
-  // it('should return a list of a users files', function(done) {
+  // it('should return a list of current user\'s files', function(done) {
   //   chai.request('localhost:3000/fl')
   //   .get('/userFiles')
   //   .end(function(err, res) {
