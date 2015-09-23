@@ -5,26 +5,29 @@
                 <div class="form-group">
                     <label for="tags">Tags</label>
                     <input class="form-control" id="tags"
-                           ng-model="dialogConfig.file.tags">
+                           ng-model="dialogConfig.file.tags"
+                            id="uploadtags">
                     <label for="desc">Description</label>
                     <input class="form-control" id="desc"
-                           ng-model="dialogConfig.file.description">
+                           ng-model="dialogConfig.file.description"
+                            id="uploaddesc">
 
                     <p class="help-block">Enter a few tags and a description to
                         make searching for the file easier.</p>
                 </div>
                 <div class="form-group">
                     <label>Select a file to upload</label>
-                    <input type="file" ng-model="dialogConfig.fileInput">
+                    <input type="file" ng-model="dialogConfig.fileInput"
+                            id="uploadfile">
                 </div>
                 <div class="form-group has-error">
                     <label class="control-label">Enter an
                         encryption passphrase</label>
                     <input type="text" class="form-control"
-                           ng-model="dialogConfig.passphraseup">
+                           ng-model="dialogConfig.passphraseup" id="passphraseup">
                 </div>
                 <button type="button" class="btn btn-success btn-lg"
-                        ng-click="dialogConfig.callback()">Upload File
+                        ng-click="dialogConfig.callback()" id="uploadbtn">Upload File
                 </button>
                 <button type="button" class="btn btn-default btn-lg"
                         ng-click="toggleModal()">Cancel
@@ -46,8 +49,8 @@
 
                             <p>Are you sure? This cannot be undone.</p>
                             <button type="button" class="btn btn-danger btn-lg"
-                                    ng-click="dialogConfig.callback()">Yep. Do
-                                it.
+                                    ng-click="dialogConfig.callback()"
+                                    id="deletebtn">Yep. Do it.
                             </button>
                             <button type="button" class="btn btn-default btn-lg"
                                     ng-click="toggleModal()">
@@ -65,7 +68,8 @@
                 <div class="form-group">
                     <label>Filename</label>
                     <input class="form-control"
-                           ng-model="dialogConfig.file.name">
+                           ng-model="dialogConfig.file.name"
+                           id="updfilename">
 
                     <p class="help-block">Change the current filename for this
                         file.</p>
@@ -73,16 +77,17 @@
                 <div class="form-group">
                     <label>Tags</label>
                     <input class="form-control"
-                           ng-model="dialogConfig.file.tags">
+                           ng-model="dialogConfig.file.tags" id="updtags">
                     <label>Description</label>
                     <input class="form-control"
-                           ng-model="dialogConfig.file.description">
+                           ng-model="dialogConfig.file.description"
+                           id="upddesc">
 
                     <p class="help-block">Change the current description or tags
                         on this file.</p>
                 </div>
                 <button type="button" class="btn btn-primary btn-lg"
-                        ng-click="dialogConfig.callback()">Save
+                        ng-click="dialogConfig.callback()" id="updatebtn">Save
                 </button>
                 <button type="button" class="btn btn-default btn-lg"
                         ng-click="toggleModal()">Cancel
@@ -97,10 +102,12 @@
                     <label class="control-label">Enter the
                         encryption passphrase</label>
                     <input type="text" class="form-control"
-                           ng-model="dialogConfig.passphrasedn">
+                           ng-model="dialogConfig.passphrasedn"
+                           id="passphrasedn">
                 </div>
                 <button type="button" class="btn btn-primary btn-lg"
-                        ng-click="dialogConfig.callback()">Download File
+                        ng-click="dialogConfig.callback()" id="download">
+                    Download File
                 </button>
                 <button type="button" class="btn btn-default btn-lg"
                         ng-click="toggleModal()">Cancel
@@ -108,7 +115,7 @@
             </div>
         </form>
     </div>
-    <div ng-show="dialogConfig.mode === 'wrongkey'">
+    <div ng-show="dialogConfig.mode === 'wrongkey'" id="wrongkey">
         <form>
             <div class="col-lg-12">
                 <div class="panel panel-red">

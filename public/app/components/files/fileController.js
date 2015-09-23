@@ -65,16 +65,20 @@ module.exports = function ($scope, fileTransferService) {
             $scope.fileOperationError);
     };
 
-    $scope.fileOperationSuccess = function () {
+    $scope.fileOperationSuccess = function (message) {
         $scope.showSpinny = false;
         $scope.toggleModal();
         $scope.dialogConfig = {};
+        $scope.errorMessage = '';
+        $scope.successMessage = message;
     };
 
-    $scope.fileOperationError = function (err) {
+    $scope.fileOperationError = function (message) {
         $scope.showSpinny = false;
         $scope.toggleModal();
         $scope.dialogConfig = {};
+        $scope.successMessage = '';
+        $scope.errorMessage = message;
     };
 
 };

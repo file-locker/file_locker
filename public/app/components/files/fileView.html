@@ -9,6 +9,16 @@
         </h1>
     </div>
 </div>
+<div class="row" ng-show="errorMessage">
+    <div class="alert alert-danger" >
+        {{errorMessage}}
+    </div>
+</div>
+<div class="row" ng-show="successMessage">
+    <div class="alert alert-success" >
+        {{successMessage}}
+    </div>
+</div>
 <div class="row">
     <div class="col-lg-3 col-md-4 col-sm-5 col-xs-6" ng-repeat="file in files">
         <div class="panel panel-primary">

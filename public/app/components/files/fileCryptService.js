@@ -1,22 +1,19 @@
-module.exports = function (decoder, crypto, Blob) {
+module.exports = function () {
     var fileCryptService = {};
-
-    fileCryptService.decoder = decoder || TextDecoder;
-    fileCryptService.crypto = crypto || CryptoJS;
 
     fileCryptService.encrypt = function ($scope, blob, pass) {
 
         var data = blob;
-        var decoder = new fileCryptService.decoder('utf-8');
+        var decoder = new TextDecoder.decoder('utf-8');
         data = 'fllock' + decoder.decode(data);
-        return fileCryptService.crypto.AES.encrypt(data, pass).toString();
+        return CryptoJS.AES.encrypt(data, pass).toString();
 
     };
 
     fileCryptService.decrypt = function ($scope, cipher, pass) {
 
-        var decrypted = fileCryptService.crypto.AES.decrypt(cipher.toString(),
-            pass).toString(fileCryptService.crypto.enc.Hex);
+        var decrypted = CryptoJS.AES.decrypt(cipher.toString(),
+            pass).toString(CryptoJS.enc.Hex);
         if (!decrypted.match(/^666c6c6f636b/)){
           throw new Error('Invalid password');
         }

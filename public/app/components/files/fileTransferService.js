@@ -16,10 +16,10 @@ module.exports = function ($http, fileCryptService) {
                 reader.result, $scope.configDialog.passphraseup);
             var res = $http.post('/fl/files', fileObj);
             res.success(function () {
-                callback();
+                callback(fileObj.filename + ' encrypted and uploaded.');
             });
             res.error(function (err) {
-                callbackerr(err)
+                callbackerr('Could not upload ' + fileObj.filename + '. ' + err);
             });
         }.bind(this);
         reader.readAsArrayBuffer(fileInput.files[0]);
@@ -49,7 +49,7 @@ module.exports = function ($http, fileCryptService) {
         });
 
         res.error(function (data) {
-            callbackerr(data);
+            callbackerr('Could not download ' + file.name + '. ' + data.msg);
         });
     };
 
@@ -57,23 +57,23 @@ module.exports = function ($http, fileCryptService) {
         var res = $http.delete('/fl/files' + file.id);
 
         res.success(function () {
-            callback();
+            callback(file.name + ' successfully deleted.');
         });
 
         res.error(function (data) {
-            callbackerr(data);
+            callbackerr('Could not delete ' + file.name + '. '+ data.msg);
         });
     };
 
     fileTransferService.updateFile = function ($scope, file, callback, callbackerr) {
         var res = $http.patch('/fl/files' + file.id);
 
-        res.success(function () {
-            callback();
+        res.success(function (data) {
+            callback(file.name + ' successfully updated.');
         });
 
         res.error(function (data) {
-            callbackerr(data);
+            callbackerr('Could not update ' + file.name + '. '+ data.msg);
         });
     };
 
