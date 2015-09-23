@@ -117,7 +117,7 @@ describe('files routes', function() {
     .set('authorization', 'BEARER ' + testUser.token)
     .end(function(err, res) {
       expect(err).to.eql(null);
-      expect(res.body.msg[0]).to.eql('updated filename');
+      expect(res.body.msg[0].name).to.eql('updated filename');
       done();
     });
   });
