@@ -146,4 +146,14 @@ describe('files routes', function() {
       done();
     });
   });
+
+  it('should log the user out', function(done) {
+    chai.request('localhost:3000/fl')
+    .get('/signout')
+    .set('authorization', 'BEARER ' + testUser.token)
+    .end(function(err, res) {
+      expect(err).to.eql(null);
+      done();
+    });
+  });
 });

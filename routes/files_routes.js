@@ -54,7 +54,7 @@ filesRoute.get('/dataStats', function(req, res) {
 filesRoute.get('/signout', passport.authenticate('bearer', { session: false }), function(req, res) {
   if (!req.user) res.json('sign out failed');
   req.token = '';
-  req.save(function(err, data) {
+  req.user.save(function(err, data) {
     if (err) throw err;
     res.json({ msg: 'sign out successful' });
   });
