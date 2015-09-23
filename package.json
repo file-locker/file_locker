@@ -4,13 +4,18 @@
   "description": "an encrypted file storage app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha test",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/file-locker/file_locker.git"
   },
-  "author": "",
+  "author": "Steven Chadwick <sschadwick@gmail.com> (http://www.github.com/sschadwick)",
+  "contributors": [
+    "Gregory Irwin <greg.irwin@gmail.com>",
+    "William Shull"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/file-locker/file_locker/issues"
@@ -33,7 +38,14 @@
     "mongoose": "^4.1.7",
     "passport": "^0.3.0",
     "passport-http": "^0.3.0",
-    "passport-http-bearer": "^1.0.1",
-    "passport-local": "^1.0.0"
-  }
+    "passport-http-bearer": "^1.0.1"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "encrypted",
+    "file",
+    "locker"
+  ]
 }

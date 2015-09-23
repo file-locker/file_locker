@@ -8,6 +8,7 @@ var passport = require('passport');
 var bearerStrategy = require('passport-http-bearer').Strategy;
 var handleError = require(__dirname + '/../lib/handle_error');
 
+
 var download = require(__dirname + '/../lib/download');
 var upload = require(__dirname + '/../lib/upload');
 var userFiles = require(__dirname + '/../lib/user_files');
@@ -36,22 +37,19 @@ filesRoute.all('/user/*', function(req, res, next) {
   })(req, res, next);
 });
 
-filesRoute.get('/user/download/:id', function(req, res) {
+filesRoute.get('/download/:id', function(req, res) {
   download(req, res);
 });
 
-filesRoute.post('/user/upload', function(req, res) {
+filesRoute.post('/upload', jsonParser, function(req, res) {
   upload(req, res);
 });
 
-filesRoute.get('/user/userFiles', function(req, res) {
-  //get a list of all files for username
+filesRoute.get('/userFiles', function(req, res) {
   userFiles(req, res);
 });
 
-filesRoute.patch('/user/updateFile/:id', function(req, res) {
-  //patch an existing meta data file
-  //body will also contain id
+filesRoute.patch('/updateFile/:id', jsonParser, function(req, res) {
   updateFile(req, res);
 });
 
@@ -59,9 +57,6 @@ filesRoute.delete('/user/removeFile/:id', function(req, res) {
   removeFile(req, res);
 });
 
-
-filesRoute.get('/user/dataStats', function(req, res) {
-  res.json({msg: 'success'});
-  //return stats for entire file collection
-  // dataStats(req, res);
+filesRoute.get('/dataStats', function(req, res) {
+  dataStats(req, res);
 });
