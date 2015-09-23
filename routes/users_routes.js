@@ -6,6 +6,7 @@ var File = require(__dirname + '/../models/file');
 var User = require(__dirname + '/../models/user');
 var passport = require('passport');
 var basicStrategy = require('passport-http').BasicStrategy;
+var handleError = require(__dirname + '/../lib/handle_error');
 
 var usersRoute = module.exports = exports = express.Router();
 usersRoute.use(passport.initialize());
@@ -23,20 +24,18 @@ passport.use(new basicStrategy(
   }
 ));
 
-
-
-
 usersRoute.post('/signup', jsonParser, function(req, res) {
+  if (!req.body.invitationCode || req.body.invitationCode !== process.env.INVITATION_CODE) handleError.err401(null, res);
   var newUser = new User();
   newUser.username = req.body.username;
   newUser.email = req.body.email;
   newUser.generateHash(req.body.password, function(err, hash) {
-    if (err) throw err; //Change to proper err handler
+    if (err) handleError.err500(err, res);
     newUser.generateToken(function(err, token) {
-      if (err) throw err;
+      if (err) handleError.err500(err, res);
       newUser.token = token;
       newUser.save(function(err, data) {
-        if (err) throw err; //probably change this one as well
+        if (err) handleError.err500(err, res);
         res.json({ user: data });
       });
     });
@@ -45,9 +44,9 @@ usersRoute.post('/signup', jsonParser, function(req, res) {
 
 usersRoute.get('/signin', passport.authenticate('basic', { session: false }), function(req, res) {
   req.user.generateToken(function(err, token) {
-    if (err) throw err; //Stop being lazy and require in the error handler
+    if (err) handleError.err500(err, res);
     req.user.save(function(err, data) {
-      if (err) throw err;
+      if (err) handleError.err500(err, res);
       data.token = token;
       res.json({ user: data });
     });

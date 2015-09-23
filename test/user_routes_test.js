@@ -11,6 +11,8 @@ var User = require(__dirname + '/../models/user');
 var host = 'localhost:3000/fl';
 
 describe('user login/signup test', function() {
+  var userToken;
+
   after(function(done) {
     mongoose.connection.db.dropDatabase(function() {
       done();
@@ -20,7 +22,7 @@ describe('user login/signup test', function() {
   it('should create a new user', function(done) {
     chai.request(host)
       .post('/signup')
-      .send({username: 'test', password: 'user', email: 'testemail'})
+      .send({username: 'test', password: 'user', email: 'testemail', invitationCode: process.env.INVITATION_CODE})
       .end(function(err, res) {
         expect(err).to.eql(null);
         expect(res.body.user.username).to.eql('test');
@@ -33,6 +35,7 @@ describe('user login/signup test', function() {
       .get('/signin')
       .auth('test', 'user')
       .end(function(err, res) {
+        userToken = res.body.user.token;
         expect(err).to.eql(null);
         expect(res.body.user.token).to.be.a('string');
         done();
