@@ -10,7 +10,7 @@ var mongoose = require('mongoose');
 var User = require(__dirname + '/../models/user');
 var host = 'localhost:3000/fl';
 
-describe('creating new user', function() {
+describe('user login/signup test', function() {
   after(function(done) {
     mongoose.connection.db.dropDatabase(function() {
       done();
@@ -34,7 +34,7 @@ describe('creating new user', function() {
       .auth('test', 'user')
       .end(function(err, res) {
         expect(err).to.eql(null);
-        expect(res.body.token).to.be.a('string');
+        expect(res.body.user.basic.token).to.be.a('string');
         done();
       });
   });

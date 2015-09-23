@@ -9,7 +9,8 @@ var userSchema = new mongoose.Schema({
   basic: {
     username: String,
     password: String,
-    email: String
+    email: String,
+    token: String
   }
 });
 

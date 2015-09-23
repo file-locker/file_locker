@@ -15,9 +15,12 @@ var updateFile = require(__dirname + '/../lib/update_file');
 var removeFile = require(__dirname + '/../lib/remove_file');
 var dataStats = require(__dirname + '/../lib/data_stats');
 
+var filesRoute = module.exports = exports = express.Router();
+filesRoute.use(passport.initialize());
+
 passport.use(new bearerStrategy(
   function(token, done) {
-    User.findOne({ token: token }, function(err, user) {
+    User.findOne({ 'basic.token': token }, function(err, user) {
       if (err) return done(err);
       if (!user) return done(null, false);
       return done(null, user);
@@ -25,7 +28,6 @@ passport.use(new bearerStrategy(
   }
 ));
 
-var filesRoute = module.exports = exports = express.Router();
 
 filesRoute.all('/user/*', function(req, res, next) {
   passport.authenticate('bearer', function(err, user) {
@@ -57,7 +59,9 @@ filesRoute.delete('/user/removeFile/:id', function(req, res) {
   removeFile(req, res);
 });
 
+
 filesRoute.get('/user/dataStats', function(req, res) {
+  res.json({msg: 'success'});
   //return stats for entire file collection
-  dataStats(req, res);
+  // dataStats(req, res);
 });

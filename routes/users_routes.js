@@ -43,7 +43,11 @@ usersRoute.post('/signup', jsonParser, function(req, res) {
 usersRoute.get('/signin', passport.authenticate('basic', { session: false }), function(req, res) {
   req.user.generateToken(function(err, token) {
     if (err) throw err; //Stop being lazy and require in the error handler
-    res.json({token: token});
+    req.user.save(function(err, data) {
+      if (err) throw err;
+      data.basic.token = token;
+      res.json({user: data});
+    });
   });
 });
 
