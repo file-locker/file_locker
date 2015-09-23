@@ -22,7 +22,7 @@ describe('user login/signup test', function() {
   it('should create a new user', function(done) {
     chai.request(host)
       .post('/signup')
-      .send({username: 'test', password: 'user', email: 'testemail'})
+      .send({username: 'test', password: 'user', email: 'testemail', invitationCode: process.env.INVITATION_CODE})
       .end(function(err, res) {
         expect(err).to.eql(null);
         expect(res.body.user.username).to.eql('test');
@@ -40,16 +40,6 @@ describe('user login/signup test', function() {
         expect(res.body.user.token).to.be.a('string');
         done();
       });
-  });
-
-  it('should log the user out', function(done) {
-    chai.request('host')
-    .get('/signout')
-    .set('authorization', 'BEARER ' + userToken)
-    .end(function(err, res) {
-      expect(err).to.eql(null);
-      done();
-    });
   });
 });
 

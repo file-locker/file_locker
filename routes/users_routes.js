@@ -24,11 +24,8 @@ passport.use(new basicStrategy(
   }
 ));
 
-
-
-
 usersRoute.post('/signup', jsonParser, function(req, res) {
-  if (!req.body.invitationCode) handleError.err401(null, res);
+  if (!req.body.invitationCode || req.body.invitationCode !== process.env.INVITATION_CODE) handleError.err401(null, res);
   var newUser = new User();
   newUser.username = req.body.username;
   newUser.email = req.body.email;
@@ -49,7 +46,7 @@ usersRoute.get('/signin', passport.authenticate('basic', { session: false }), fu
   req.user.generateToken(function(err, token) {
     if (err) handleError.err500(err, res);
     req.user.save(function(err, data) {
-      if (err) throw err;
+      if (err) handleError.err500(err, res);
       data.token = token;
       res.json({ user: data });
     });

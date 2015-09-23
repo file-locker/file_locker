@@ -42,7 +42,7 @@ describe('files routes', function() {
           });
         });
       });
-    });    
+    });
   });
 
   after(function(done) {
@@ -123,7 +123,7 @@ describe('files routes', function() {
   });
 
   it('should remove a file', function(done) {
-    Metadata.findOne({name: 'updated filename'}, function(err, data) {      
+    Metadata.findOne({name: 'updated filename'}, function(err, data) {
       chai.request('localhost:3000/fl')
       .delete('/files/' + data._id.toString())
       .set('authorization', 'BEARER ' + testUser.token)
