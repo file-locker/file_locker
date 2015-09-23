@@ -43,12 +43,11 @@ usersRoute.post('/signup', jsonParser, function(req, res) {
 });
 
 usersRoute.get('/signin', passport.authenticate('basic', { session: false }), function(req, res) {
-  req.user.generateToken(function(err, token) {
-    if (err) handleError.err500(err, res);
-    req.user.save(function(err, data) {
+  req.user.generateToken(function(err, newToken) {
+    User.findByIdAndUpdate({_id: req.user._id}, {token: newToken}, {new: true}, function(err, data) {
       if (err) handleError.err500(err, res);
-      data.token = token;
       res.json({ user: data });
     });
   });
 });
+
