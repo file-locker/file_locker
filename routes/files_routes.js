@@ -8,7 +8,6 @@ var passport = require('passport');
 var bearerStrategy = require('passport-http-bearer').Strategy;
 var handleError = require(__dirname + '/../lib/handle_error');
 
-
 var filesRoute = module.exports = exports = express.Router();
 filesRoute.use(passport.initialize());
 
@@ -47,7 +46,7 @@ filesRoute.get('/userFiles', passport.authenticate('bearer', { session: false })
   userFiles(req, res);
 });
 
-filesRoute.get('/dataStats', passport.authenticate('bearer', { session: false }), function(req, res) {
+filesRoute.get('/dataStats', function(req, res) {
   var dataStats = require(__dirname + '/../lib/data_stats');
   dataStats(req, res);
 });
@@ -60,7 +59,3 @@ filesRoute.get('/signout', passport.authenticate('bearer', { session: false }), 
     res.json({ msg: 'sign out successful' });
   });
 });
-
-
-
-

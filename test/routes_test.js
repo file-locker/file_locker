@@ -8,23 +8,41 @@ var handleError = require(__dirname + '/../lib/handle_error');
 require(__dirname + '/../server');
 var File = require(__dirname + '/../models/file');
 var Metadata = require(__dirname + '/../models/metadata');
+var User = require(__dirname + '/../models/user');
+
 var mongoose = require('mongoose');
 
-
 describe('files routes', function() {
-  before(function() {
-    var testFile = new File();
-    testFile.fileContents = 'file contents here';
-    testFile.save(function(err, data) {
-      var meta = {};
-      meta.fileLink = data._id.toString();
-      meta.name = 'ITS A TEST';
-      meta.tags = 'buggy';
+  var testUser;
 
-      var testMeta = new Metadata(meta);
-      testMeta.save(function(err, data) {
+  before(function(done) {
+    var newUser = new User();
+    newUser.username = 'user';
+    newUser.generateHash('testpass', function(err, hash) {
+      if (err) throw err;
+      newUser.generateToken(function(err, token) {
+        if (err) throw err;
+        newUser.token = token;
+        newUser.save(function(err, data) {
+          testUser = data;
+
+          var testFile = new File();
+          testFile.fileContents = 'file contents here';
+          testFile.save(function(err, data) {
+            var meta = {};
+            meta.fileLink = data._id.toString();
+            meta.name = 'ITS A TEST';
+            meta.tags = 'buggy';
+            meta.createdBy = 'user';
+
+            var testMeta = new Metadata(meta);
+            testMeta.save(function(err, data) {
+              done();
+            });
+          });
+        });
       });
-    });
+    });    
   });
 
   after(function(done) {
@@ -37,7 +55,9 @@ describe('files routes', function() {
   it('should return 404 if download id doesn\'t exist', function(done) {
     chai.request('localhost:3000/fl')
     .get('/files/18798') //random id of non-existent file
+    .set('authorization', 'BEARER ' + testUser.token)
     .end(function(err, res) {
+      if (err) throw err;
       expect(err).to.eql(null);
       expect(res.status).to.eql(404);
       expect(res.body.msg).to.eql('File Not Found');
@@ -49,6 +69,7 @@ describe('files routes', function() {
     File.findOne({}, function(err, data) { //find saved file from Before block
       chai.request('localhost:3000/fl')
       .get('/files/' + data._id.toString())
+      .set('authorization', 'BEARER ' + testUser.token)
       .end(function(err, res) {
         expect(err).to.eql(null);
         expect(res.body.msg.fileContents).to.eql('file contents here');
@@ -60,6 +81,7 @@ describe('files routes', function() {
   it('should upload a file', function(done) {
     chai.request('localhost:3000/fl')
     .post('/files')
+    .set('authorization', 'BEARER ' + testUser.token)
     .send({
       name: 'test name',
       tags: 'its okay',
@@ -79,6 +101,7 @@ describe('files routes', function() {
     Metadata.findOne({name: 'ITS A TEST'}, function(err, data) {
       chai.request('localhost:3000/fl')
       .patch('/files/' + data._id.toString())
+      .set('authorization', 'BEARER ' + testUser.token)
       .send({name: 'updated filename', tags: 'you\'re it', description: 'it just sits there'})
       .end(function(err, res) {
         expect(err).to.eql(null);
@@ -88,9 +111,22 @@ describe('files routes', function() {
     });
   });
 
+  it('should return a list of current user\'s files', function(done) {
+    chai.request('localhost:3000/fl')
+    .get('/userFiles')
+    .set('authorization', 'BEARER ' + testUser.token)
+    .end(function(err, res) {
+      expect(err).to.eql(null);
+      expect(res.body.msg[0]).to.eql('updated filename');
+      done();
+    });
+  });
+
   it('should remove a file', function(done) {
-    Metadata.findOne({name: 'updated filename'}, function(err, data) {      chai.request('localhost:3000/fl')
+    Metadata.findOne({name: 'updated filename'}, function(err, data) {      
+      chai.request('localhost:3000/fl')
       .delete('/files/' + data._id.toString())
+      .set('authorization', 'BEARER ' + testUser.token)
       .end(function(err, res) {
         expect(err).to.eql(null);
         expect(res.body.msg).to.eql('deleting');
@@ -99,20 +135,10 @@ describe('files routes', function() {
     });
   });
 
-  it('should return a list of current user\'s files');
-  // it('should return a list of current user\'s files', function(done) {
-  //   chai.request('localhost:3000/fl')
-  //   .get('/userFiles')
-  //   .end(function(err, res) {
-  //     expect(err).to.eql(null);
-  //     expect(res.body.msg.length).to.be.above(0);
-  //     done();
-  //   });
-  // });
-  
   it('should give stats on all data', function(done) {
     chai.request('localhost:3000/fl')
     .get('/dataStats')
+    .set('authorization', 'BEARER ' + testUser.token)
     .end(function(err, res) {
       expect(err).to.eql(null);
       expect(typeof res.body.msg.fileCount).to.eql('number');
