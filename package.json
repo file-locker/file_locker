@@ -34,6 +34,7 @@
     "bcrypt": "^0.8.5",
     "body-parser": "^1.14.0",
     "eat": "^0.1.1",
+    "bower": "^1.5.2",
     "express": "^4.13.3",
     "mongoose": "^4.1.7",
     "passport": "^0.3.0",
@@ -48,4 +49,8 @@
     "file",
     "locker"
   ]
+    "bower": "^1.5.2",
+    "express": "^4.13.3",
+    "mongoose": "^4.1.7"
+  }
 }
