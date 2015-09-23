@@ -29,34 +29,26 @@ passport.use(new bearerStrategy(
   }
 ));
 
-
-filesRoute.all('/user/*', function(req, res, next) {
-  passport.authenticate('bearer', function(err, user) {
-    if (err) throw err; //change to proper error handling
-    if (!user) throw err; //same as above
-  })(req, res, next);
-});
-
-filesRoute.get('/download/:id', function(req, res) {
+filesRoute.get('/download/:id', passport.authenticate('bearer', { session: false}), function(req, res) {
   download(req, res);
 });
 
-filesRoute.post('/upload', jsonParser, function(req, res) {
+filesRoute.post('/upload', passport.authenticate('bearer', { session: false}), jsonParser, function(req, res) {
   upload(req, res);
 });
 
-filesRoute.get('/userFiles', function(req, res) {
+filesRoute.get('/userFiles', passport.authenticate('bearer', { session: false}), function(req, res) {
   userFiles(req, res);
 });
 
-filesRoute.patch('/updateFile/:id', jsonParser, function(req, res) {
+filesRoute.patch('/updateFile/:id', passport.authenticate('bearer', { session: false}), jsonParser, function(req, res) {
   updateFile(req, res);
 });
 
-filesRoute.delete('/user/removeFile/:id', function(req, res) {
+filesRoute.delete('/user/removeFile/:id', passport.authenticate('bearer', { session: false}), function(req, res) {
   removeFile(req, res);
 });
 
-filesRoute.get('/dataStats', function(req, res) {
+filesRoute.get('/dataStats', passport.authenticate('bearer', { session: false}), function(req, res) {
   dataStats(req, res);
 });
