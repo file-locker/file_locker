@@ -31,10 +31,14 @@
     "mocha": "^2.3.2"
   },
   "dependencies": {
+    "bcrypt": "^0.8.5",
     "body-parser": "^1.14.0",
+    "eat": "^0.1.1",
     "express": "^4.13.3",
     "mongoose": "^4.1.7",
-    "passport": "^0.3.0"
+    "passport": "^0.3.0",
+    "passport-http": "^0.3.0",
+    "passport-http-bearer": "^1.0.1"
   },
   "directories": {
     "test": "test"
