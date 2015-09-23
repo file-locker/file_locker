@@ -32,9 +32,13 @@ usersRoute.post('/signup', jsonParser, function(req, res) {
   newUser.email = req.body.email;
   newUser.generateHash(req.body.password, function(err, hash) {
     if (err) throw err; //Change to proper err handler
-    newUser.save(function(err, data) {
-      if (err) throw err; //probably change this one as well
-      res.json({ msg: 'account created!' });
+    newUser.generateToken(function(err, token) {
+      if (err) throw err;
+      newUser.token = token;
+      newUser.save(function(err, data) {
+        if (err) throw err; //probably change this one as well
+        res.json({ user: data });
+      });
     });
   });
 });

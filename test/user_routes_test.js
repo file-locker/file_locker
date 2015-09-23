@@ -23,7 +23,7 @@ describe('user login/signup test', function() {
       .send({username: 'test', password: 'user', email: 'testemail'})
       .end(function(err, res) {
         expect(err).to.eql(null);
-        expect(typeof res.body.msg).to.eql('string');
+        expect(res.body.user.username).to.eql('test');
         done();
       });
   });
