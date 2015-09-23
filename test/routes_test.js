@@ -36,7 +36,7 @@ describe('files routes', function() {
 
   it('should return 404 if download id doesn\'t exist', function(done) {
     chai.request('localhost:3000/fl')
-    .get('/download/18798') //random id of non-existent file
+    .get('/files/18798') //random id of non-existent file
     .end(function(err, res) {
       expect(err).to.eql(null);
       expect(res.status).to.eql(404);
@@ -48,7 +48,7 @@ describe('files routes', function() {
   it('should download the test file', function(done) {
     File.findOne({}, function(err, data) { //find saved file from Before block
       chai.request('localhost:3000/fl')
-      .get('/download/' + data._id.toString())
+      .get('/files/' + data._id.toString())
       .end(function(err, res) {
         expect(err).to.eql(null);
         expect(res.body.msg.fileContents).to.eql('file contents here');
@@ -59,7 +59,7 @@ describe('files routes', function() {
 
   it('should upload a file', function(done) {
     chai.request('localhost:3000/fl')
-    .post('/upload')
+    .post('/files')
     .send({
       name: 'test name',
       tags: 'its okay',
@@ -75,6 +75,29 @@ describe('files routes', function() {
     });
   });
 
+  it('should be able to update a file', function(done) {
+    Metadata.findOne({name: 'ITS A TEST'}, function(err, data) {
+      chai.request('localhost:3000/fl')
+      .patch('/files/' + data._id.toString())
+      .send({name: 'updated filename', tags: 'you\'re it', description: 'it just sits there'})
+      .end(function(err, res) {
+        expect(err).to.eql(null);
+        expect(res.body.msg.name).to.eql('updated filename');
+        done();
+      });
+    });
+  });
+
+  it('should remove a file', function(done) {
+    Metadata.findOne({name: 'updated filename'}, function(err, data) {      chai.request('localhost:3000/fl')
+      .delete('/files/' + data._id.toString())
+      .end(function(err, res) {
+        expect(err).to.eql(null);
+        expect(res.body.msg).to.eql('deleting');
+        done();
+      });
+    });
+  });
 
   //waiting until can pull username from headers
   it('should return a list of current user\'s files');
@@ -88,30 +111,6 @@ describe('files routes', function() {
   //   });
   // });
   
-  it('should be able to update a file', function(done) {
-    Metadata.findOne({name: 'ITS A TEST'}, function(err, data) {
-      chai.request('localhost:3000/fl')
-      .patch('/updateFile/' + data._id.toString())
-      .send({name: 'updated filename', tags: 'you\'re it', description: 'it just sits there'})
-      .end(function(err, res) {
-        expect(err).to.eql(null);
-        expect(res.body.msg.name).to.eql('updated filename');
-        done();
-      });
-    });
-  });
-
-  it('should remove a file', function(done) {
-    Metadata.findOne({name: 'updated filename'}, function(err, data) {      chai.request('localhost:3000/fl')
-      .delete('/removeFile/' + data._id.toString())
-      .end(function(err, res) {
-        expect(err).to.eql(null);
-        expect(res.body.msg).to.eql('deleting');
-        done();
-      });
-    });
-  });
-
   it('should give stats on all data', function(done) {
     chai.request('localhost:3000/fl')
     .get('/dataStats')
