@@ -5,8 +5,8 @@ var bcrypt = require('bcrypt');
 var eat = require('eat');
 
 var userSchema = new mongoose.Schema({
-  username: String,
-  password: String,
+  username: { type: String, required: true, unique: true},
+  password: { type: String, required: true },
   email: String,
   token: String
 });
