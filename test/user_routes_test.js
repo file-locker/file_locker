@@ -10,7 +10,7 @@ var mongoose = require('mongoose');
 var User = require(__dirname + '/../models/user');
 var host = 'localhost:3000/fl';
 
-describe('user login/signup test', function(done) {
+describe('user login/signup test', function() {
   after(function(done) {
     mongoose.connection.db.dropDatabase(function() {
       done();
