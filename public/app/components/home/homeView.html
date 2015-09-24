@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header" ng-cloak>{{pageName}}</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-files-o fa-5x"></i>
+                    </div>
+                    <div class="col-xs-1"> </div>
+                    <div class="col-xs-8 text-right">
+                        <div class="huge" ng-bind="fileCount"></div>
+                        <div> Files in our cloud! </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-cloud fa-5x"></i>
+                    </div>
+                    <div class="col-xs-1"> </div>
+                    <div class="col-xs-8 text-right">
+                        <div class="huge" ng-bind="fileBytes"></div>
+                        <div> Bytes in our cloud! </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<h3><span>Welcome to File Locker<span ng-if="user.username">, {{user.username}}</span>.
+</h3>
+<p>A super secure file storage system. Really! We can't even read what you
+    upload! Maybe the NSA can, but most people can't! Protect your data
+    today.</p>
