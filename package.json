@@ -47,5 +47,8 @@
     "encrypted",
     "file",
     "locker"
-  ]
+  ],
+  "engines": {
+    "node": "0.12.x"
+  }
 }
