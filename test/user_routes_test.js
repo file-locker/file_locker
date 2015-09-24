@@ -64,6 +64,7 @@ describe('user login/signup test', function() {
               .get('/signin')
               .auth('test', 'newPass')
               .end(function(err, res) {
+                console.log(res);
                 expect(err).to.eql(null);
                 expect(res.body.user.token).to.be.a('string');
                 done();
