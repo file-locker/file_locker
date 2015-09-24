@@ -5,7 +5,8 @@ var jsonParser = require('body-parser').json();
 var File = require(__dirname + '/../models/file');
 var User = require(__dirname + '/../models/user');
 var passport = require('passport');
-var basicStrategy = require('passport-http').BasicStrategy;
+var basicAuth = require(__dirname + '/../lib/basic_auth');
+var bearerAuth = require(__dirname + '/../lib/bearer_auth');
 var handleError = require(__dirname + '/../lib/handle_error');
 var EventEmitter = require('events').EventEmitter;
 var ee = new EventEmitter();
@@ -13,31 +14,12 @@ var ee = new EventEmitter();
 var usersRoute = module.exports = exports = express.Router();
 usersRoute.use(passport.initialize());
 
-passport.use(new basicStrategy(function(username, password, done) {
-  ee.emit('findUser', username, password, done);
-}));
-
-ee.on('findUser', function(username, password, done) {
-  User.findOne({username: username}, function(err, user) {
-    if (err) return done(err);
-    if (!user) return done(null, false);
-    ee.emit('compareHash', password, user, done);
-  });
-});
-
-ee.on('compareHash', function(password, user, done) {
-  user.compareHash(password, function(err, hashRes) {
-    if (err) return done(err);
-    return done(null, user);
-  });
-});
-
 usersRoute.post('/signup', jsonParser, function(req, res) {
+  if ((!req.body.invitationCode) || req.body.invitationCode !== process.env.INVITATION_CODE) return handleError.err401(null, res);
   ee.emit('newUser', req, res);
 });
 
 ee.on('newUser', function(req, res) {
-  if (!req.body.invitationCode || req.body.invitationCode !== process.env.INVITATION_CODE) handleError.err401(null, res);
   var newUser = new User();
   newUser.username = req.body.username;
   newUser.email = req.body.email;
@@ -62,7 +44,8 @@ ee.on('saveNewUser', function(req, res, newUser) {
   });
 });
 
-usersRoute.get('/signin', passport.authenticate('basic', { session: false }), function(req, res) {
+
+usersRoute.get('/signin', basicAuth.basicAuthentication, function(req, res) {
   ee.emit('signinToken', req, res);
 });
 
@@ -78,6 +61,16 @@ ee.on('saveUser', function(req, res, token) {
     if (err) throw err;
     data.token = token;
     res.json({ user: data });
+  });
+});
+
+
+usersRoute.get('/signout', bearerAuth.bearerAuthentication, function(req, res) {
+  if (!req.user) res.json({ msg: 'sign out failed' });
+  req.user.token = '';
+  req.user.save(function(err, data) {
+    if (err) throw err;
+    res.json({ msg: 'sign out successful' });
   });
 });
 
