@@ -1,0 +1,28 @@
+{
+  "name": "File locker fe bootstrapper",
+  "version": "1.0.0",
+  "authors": [
+    "Gregory Irwin"
+  ],
+  "description": "file_locker front end",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "db",
+    "routes",
+    "tools",
+    "protractorTest",
+    "lib",
+    "test",
+    "models",
+    "public"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.1",
+    "font-awesome": "~4.2.0",
+    "metisMenu": "~1.1.3",
+    "bootstrap-social": "~4.8.0"
+  }
+}
+
