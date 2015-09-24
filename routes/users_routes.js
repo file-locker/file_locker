@@ -6,6 +6,7 @@ var File = require(__dirname + '/../models/file');
 var User = require(__dirname + '/../models/user');
 var passport = require('passport');
 var basicStrategy = require('passport-http').BasicStrategy;
+var handleError = require(__dirname + '/../lib/handle_error');
 var EventEmitter = require('events').EventEmitter;
 var ee = new EventEmitter();
 
@@ -36,6 +37,7 @@ usersRoute.post('/signup', jsonParser, function(req, res) {
 });
 
 ee.on('newUser', function(req, res) {
+  if (!req.body.invitationCode || req.body.invitationCode !== process.env.INVITATION_CODE) handleError.err401(null, res);
   var newUser = new User();
   newUser.username = req.body.username;
   newUser.email = req.body.email;
@@ -56,11 +58,11 @@ ee.on('signupToken', function(req, res, newUser) {
 ee.on('saveNewUser', function(req, res, newUser) {
   newUser.save(function(err, data) {
     if (err) throw err;
-    res.json({user: data});
+    res.json({ user: data });
   });
 });
 
-usersRoute.get('/signin', passport.authenticate('basic', {session: false}), function(req, res) {
+usersRoute.get('/signin', passport.authenticate('basic', { session: false }), function(req, res) {
   ee.emit('signinToken', req, res);
 });
 
@@ -75,6 +77,7 @@ ee.on('saveUser', function(req, res, token) {
   req.user.save(function(err, data) {
     if (err) throw err;
     data.token = token;
-    res.json({user: data});
+    res.json({ user: data });
   });
 });
+

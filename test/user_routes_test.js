@@ -11,6 +11,8 @@ var User = require(__dirname + '/../models/user');
 var host = 'localhost:3000/fl';
 
 describe('user login/signup test', function() {
+  var testUser = '';
+
   after(function(done) {
     mongoose.connection.db.dropDatabase(function() {
       done();
@@ -20,12 +22,23 @@ describe('user login/signup test', function() {
   it('should create a new user', function(done) {
     chai.request(host)
       .post('/signup')
-      .send({username: 'test', password: 'user', email: 'testemail'})
+      .send({username: 'test', password: 'user', email: 'testemail', invitationCode: process.env.INVITATION_CODE})
       .end(function(err, res) {
+        testUser = res.body.user.token;
         expect(err).to.eql(null);
         expect(res.body.user.username).to.eql('test');
         done();
       });
+  });
+
+  it('should log the user out', function(done) {
+    chai.request(host)
+    .get('/signout')
+    .set('authorization', 'BEARER ' + testUser)
+    .end(function(err, res) {
+      expect(err).to.eql(null);
+      done();
+    });
   });
 
   it('should log into an existing user', function(done) {

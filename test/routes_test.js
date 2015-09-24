@@ -148,7 +148,7 @@ describe('files routes', function() {
   });
 
   it('should remove a file', function(done) {
-    Metadata.findOne({name: 'updated filename'}, function(err, data) {      
+    Metadata.findOne({name: 'updated filename'}, function(err, data) {
       chai.request('localhost:3000/fl')
       .delete('/files/' + data._id.toString())
       .set('authorization', 'BEARER ' + testUser.token)
@@ -168,16 +168,6 @@ describe('files routes', function() {
       expect(err).to.eql(null);
       expect(typeof res.body.msg.fileCount).to.eql('number');
       expect(typeof res.body.msg.diskSize).to.eql('number');
-      done();
-    });
-  });
-
-  it('should log the user out', function(done) {
-    chai.request('localhost:3000/fl')
-    .get('/signout')
-    .set('authorization', 'BEARER ' + testUser.token)
-    .end(function(err, res) {
-      expect(err).to.eql(null);
       done();
     });
   });

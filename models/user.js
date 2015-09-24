@@ -24,7 +24,7 @@ userSchema.methods.compareHash = function(password, callback) {
 };
 
 userSchema.methods.generateToken = function(callback) {
-  eat.encode({id: this._id}, process.env.APP_SECRET, callback);
+  eat.encode({id: this._id, timeStamp: Date.now()}, process.env.APP_SECRET, callback);
 };
 
 module.exports = mongoose.model('User', userSchema);
