@@ -6,7 +6,6 @@ require('./components/home/index');
 require('./components/waiting/index');
 require('./components/register/index');
 require('./components/login/index');
-require('./components/user/index');
 require('./components/dialog/index');
 require('./components/files/index');
 
