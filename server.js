@@ -17,6 +17,10 @@ app.use(passport.initialize());
 app.use('/fl/', fileRouter);
 app.use('/fl/', userRouter);
 
+app.use(function(req, res) {
+  res.send(404, 'Page not found');
+});
+
 var port = process.env.PORT || 3000;
 
 app.listen(port, function() {

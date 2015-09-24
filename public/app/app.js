@@ -845,7 +845,7 @@ module.exports = function ($scope, $http, $location, $rootScope) {
             username: $scope.username,
             password: $scope.password,
             email: $scope.email,
-            invitation: $scope.invite
+            invitationCode: $scope.invite
         });
         res.success(function(data){
             $scope.showSpinny = false;
@@ -854,7 +854,7 @@ module.exports = function ($scope, $http, $location, $rootScope) {
             $location.path('/');
         });
         res.error(function(data){
-            $scope.problemMsg = data;
+            $scope.problemMsg = data.msg;
             $scope.showSpinny = false;
         });
     };
@@ -864,15 +864,25 @@ var app = require('angular-bsfy').module('main');
 
 app.controller('userController', require('./userController'));
 },{"./userController":21,"angular-bsfy":1}],21:[function(require,module,exports){
-module.exports = function ($scope, $rootScope) {
+module.exports = function ($scope, $rootScope, $http) {
     $scope.pageName = 'User Profile';
     $scope.user = $rootScope.user;
 
     $scope.changePassword = function(){
+        $scope.successMessage = '';
+        $scope.errorMessage = '';
         if($scope.newPass1 != $scope.newPass2){
             $scope.errorMessage = 'Passwords do not match';
         }
+        var res = $http.post('/fl/changePassword', {password:$scope.newPass1});
 
+        res.success(function(){
+            $scope.successMessage = 'Password successfully changed.';
+        });
+
+        res.error(function(err){
+            $scope.errorMessage = "Unable to change password:" + err.msg;
+        });
     }
 };
 },{}],22:[function(require,module,exports){
