@@ -27,16 +27,16 @@
             <div class="form-group">
                 <label>Old Password</label>
                 <input class="form-control" placeholder="Old password" required
-                       ng-model="oldPass">
+                       ng-model="oldPass" type="password">
                 <label>New Password</label>
                 <input class="form-control" placeholder="New Password" required
-                       ng-model="newPass1">
+                       ng-model="newPass1" type="password">
                 <label>Re-enter new Password</label>
                 <input class="form-control" placeholder="New Password" required
-                       ng-model="newPass2">
+                       ng-model="newPass2" type="password">
                 <button type="button" class="btn btn-primary"
                         ng-disabled="changepass.$invalid"
-                        ng-clikc="changePassword()">Change Password
+                        ng-click="changePassword()">Change Password
                 </button>
             </div>
         </form>
