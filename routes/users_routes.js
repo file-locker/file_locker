@@ -41,7 +41,7 @@ ee.on('newUser', function(req, res) {
   newUser.email = req.body.email;
   newUser.generateHash(req.body.password, function(err, hash) {
     if (err) throw err;
-    ee.emit('signupToken', req, res, newUser)
+    ee.emit('signupToken', req, res, newUser);
   });
 });
 
@@ -49,11 +49,11 @@ ee.on('signupToken', function(req, res, newUser) {
   newUser.generateToken(function(err, token) {
     if (err) throw err;
     newUser.token = token;
-    ee.emit('save', req, res, newUser);
-  })
-})
+    ee.emit('saveNewUser', req, res, newUser);
+  });
+});
 
-ee.on('save', function(req, res, newUser) {
+ee.on('saveNewUser', function(req, res, newUser) {
   newUser.save(function(err, data) {
     if (err) throw err;
     res.json({user: data});
