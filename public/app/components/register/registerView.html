@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">{{pageName}}</h1>
+    </div>
+</div>
+<div class="alert alert-danger" ng-show="problemMsg">
+    {{problemMsg}}
+</div>
+<div class="alert alert-info">
+    Please note that file storage is by invitation only at this time.
+</div>
+<div class="row">
+    <div class="col-lg-4">
+        <div class="panel-body">
+            <form role="form" name="register">
+                <fieldset>
+                    <div class="form-group">
+                        <label>Please select a username</label>
+                        <input class="form-control" placeholder="Username"
+                               name="username" autofocus="" ng-model="username"
+                               required>
+                        <label>Please enter your email address</label>
+                        <input class="form-control"
+                               placeholder="yourname@emailservice.com"
+                               name="email" autofocus="" ng-model="email"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <label>Please re-enter a password</label>
+                        <input class="form-control" placeholder="Password"
+                               name="password" type="password" value=""
+                               ng-model="password" required>
+                        <label>Please re-enter password</label>
+                        <input class="form-control" placeholder="Password"
+                               name="password2" type="password" value=""
+                               ng-model="password2" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Please enter your invitation code</label>
+                        <input class="form-control"
+                               placeholder="Invitation Code"
+                               name="invite" autofocus="" ng-model="invite"
+                               required type="password">
+                    </div>
+                    <button class="btn btn-lg btn-success btn-block"
+                       ng-click="registerUser()"
+                       ng-disabled="register.$invalid">Sign Up</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+<waiting-spinny-thing show="showSpinny"></waiting-spinny-thing>
