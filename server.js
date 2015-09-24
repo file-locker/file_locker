@@ -1,5 +1,7 @@
 'use strict';
 
+var fs = require('fs');
+var https = require('https');
 var express = require('express');
 var app = express();
 var passport = require('passport');
@@ -10,6 +12,11 @@ process.env.APP_SECRET = 'tortilla';
 
 var fileRouter = require(__dirname + '/routes/files_routes');
 var userRouter = require(__dirname + '/routes/users_routes');
+
+https.createServer({
+  key: fs.readFileSync('key.pem'), //needs to be directed to server key and cert
+  cert: fs.readFileSync('cert.pem')
+}, app);
 
 app.use(express.static('public'));
 app.use(passport.initialize());
