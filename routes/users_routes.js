@@ -81,3 +81,6 @@ ee.on('saveUser', function(req, res, token) {
   });
 });
 
+usersRoute.post('/changePassword', jsonParser, passport.authenticate('basic', {session: false}), function(req, res) {
+    require(__dirname + '/lib/change_password')(req, res);
+});
