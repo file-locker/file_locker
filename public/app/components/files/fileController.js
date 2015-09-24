@@ -4,24 +4,26 @@ module.exports = function ($scope, fileTransferService, $http, $rootScope) {
     $http.defaults.headers.common.Authorization = 'BEARER ' + $scope.user.token;
 
     $scope.files = [];
+    $scope.dialogConfig = {};
 
     $scope.getFileList = function () {
         var res = $http.get('/fl/userFiles/');
 
         res.success(function(data){
             $scope.files = data.msg;
+            if(!$scope.files.length) {
+                $scope.successMessage = 'No files found.  Upload when ready!'
+            }
         });
 
-        res.error(function(data){
-            $scope.successMessage = 'No files found.  Upload when ready!';
+        res.error(function(){
+            $scope.successMessage = 'Oops!  We\'re having some server trouble.  Please try again later.';
         })
     };
 
     $scope.getFileList();
 
     $scope.showSpinny = false;
-    $scope.dialogConfig = {};
-
     $scope.modalShown = false;
 
     $scope.toggleModal = function () {

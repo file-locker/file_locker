@@ -1,7 +1,58 @@
 module.exports = function ($scope, $http, $location, $rootScope) {
-    $scope.user = null;
-    $http.defaults.headers.common.Authorization = '';
     $scope.showSpinny = false;
+
+    if($rootScope.user){
+        var res = $http.get('/fl/signout');
+
+        res.success(function(){
+            $rootScope.user = null;
+            $scope.user = null;
+            $http.defaults.headers.common.Authorization = '';
+        });
+    }
+
+    var userLinks = [
+        'sidebar_filemanager',
+        'sidebar_userprofile',
+        'sidebar_signout',
+        'menu_userprofile',
+        'menu_signout'
+    ];
+
+    var nonUserLinks = [
+        'sidebar_signin',
+        'sidebar_signup',
+        'menu_signup',
+        'menu_signin'
+    ];
+
+    if (!$scope.user) {
+        for (var i = 0; i < userLinks.length; i++){
+            hideElement(userLinks[i]);
+        }
+        for (var i = 0; i < nonUserLinks.length; i++){
+            showElement(nonUserLinks[i]);
+        }
+    } else {
+        for (var i = 0; i < userLinks.length; i++){
+            showElement(userLinks[i]);
+        }
+        for (var i = 0; i < nonUserLinks.length; i++){
+            hideElement(nonUserLinks[i]);
+        }
+    }
+
+    function showElement(id) {
+        var element = $('#' + id);
+        element.removeClass('ng-hide');
+        element.addClass('ng-show');
+    }
+
+    function hideElement(id) {
+        var element = $('#' + id);
+        element.removeClass('ng-show');
+        element.addClass('ng-hide');
+    }
 
     $scope.login = function () {
         $scope.showSpinny = true;

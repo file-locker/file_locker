@@ -1,29 +1,22 @@
 {
-  "name": "startbootstrap-sb-admin-2",
-  "version": "1.0.7",
-  "homepage": "http://startbootstrap.com/template-overviews/sb-admin-2/",
+  "name": "File locker fe bootstrapper",
+  "version": "1.0.0",
   "authors": [
-    "David Miller"
+    "Gregory Irwin"
   ],
-  "description": "A free, open source, Bootstrap admin theme created by Start Bootstrap",
-  "keywords": [
-    "bootstrap",
-    "theme"
-  ],
-  "license": "Apache",
+  "description": "file_locker front end",
+  "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
+    "db",
+    "routes",
+    "tools",
+    "protractorTest",
+    "lib",
     "test",
-    "tests",
-    "pages",
-    "index.html",
-    "/js"
-  ],
-  "main": [
-    "dist/css/sb-admin-2.css",
-    "dist/js/sb-admin-2.js"
+    "models",
+    "public"
   ],
   "dependencies": {
     "bootstrap": "~3.3.1",
@@ -32,3 +25,4 @@
     "bootstrap-social": "~4.8.0"
   }
 }
+

@@ -63,17 +63,17 @@
                         class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="/signin"><i
+                    <li><a href="/signin" id="menu_signin"><i
                             class="fa fa-sign-in fa-fw"></i> Sign in</a>
                     </li>
-                    <li><a href="/signup"><i
-                            class="fa fa-sign-in fa-fw"></i> Sign Up</a>
-                    </li>
-                    <li><a href="/user"><i class="fa fa-user fa-fw"></i> User
+                    <li><a href="/user" id="menu_userprofile"><i class="fa fa-user fa-fw"></i> User
                         Profile</a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="/signin"><i
+                    <li><a href="/signup" id="menu_signup"><i
+                            class="fa fa-user fa-fw"></i> Sign Up</a>
+                    </li>
+                    <li><a href="/signin" id="menu_signout"><i
                             class="fa fa-sign-out fa-fw"></i> Logout</a>
                     </li>
                 </ul>
@@ -103,18 +103,21 @@
                             Home</a>
                     </li>
                     <li>
-                        <a href="/files"><i class="fa fa-files-o fa-fw"></i> File
+                        <a href="/files" id="sidebar_filemanager"><i class="fa fa-files-o fa-fw ng-hide"></i> File
                             Manager</a>
                     </li>
                     <li>
-                        <a href="/user"><i class="fa fa-edit fa-fw"></i> My
+                        <a href="/user" id="sidebar_userprofile"><i class="fa fa-user fa-fw ng-hide"></i> My
                             Profile</a>
                     </li>
                     <li>
-                        <a href="/signin"><i class="fa fa-edit fa-fw"></i> Sign In</a>
+                        <a href="/signin" id="sidebar_signin"><i class="fa fa-sign-in fa-fw ng-hide"></i> Sign In</a>
                     </li>
                     <li>
-                        <a href="/signup"><i class="fa fa-edit fa-fw"></i> Sign Up</a>
+                        <a href="/signup" id="sidebar_signup"><i class="fa fa-user fa-fw ng-hide"></i> Sign Up</a>
+                    </li>
+                    <li>
+                        <a href="/signin" id="sidebar_signout"><i class="fa fa-sign-out fa-fw ng-hide"></i> Sign Out</a>
                     </li>
                 </ul>
             </div>

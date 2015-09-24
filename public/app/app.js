@@ -434,24 +434,26 @@ module.exports = function ($scope, fileTransferService, $http, $rootScope) {
     $http.defaults.headers.common.Authorization = 'BEARER ' + $scope.user.token;
 
     $scope.files = [];
+    $scope.dialogConfig = {};
 
     $scope.getFileList = function () {
         var res = $http.get('/fl/userFiles/');
 
         res.success(function(data){
             $scope.files = data.msg;
+            if(!$scope.files.length) {
+                $scope.successMessage = 'No files found.  Upload when ready!'
+            }
         });
 
-        res.error(function(data){
-            $scope.successMessage = 'No files found.  Upload when ready!';
+        res.error(function(){
+            $scope.successMessage = 'Oops!  We\'re having some server trouble.  Please try again later.';
         })
     };
 
     $scope.getFileList();
 
     $scope.showSpinny = false;
-    $scope.dialogConfig = {};
-
     $scope.modalShown = false;
 
     $scope.toggleModal = function () {
@@ -674,9 +676,67 @@ app.directive('fileDialog', require('./fileDialogDirective'));
 app.controller('fileController', require('./fileController'));
 
 },{"./fileController":9,"./fileCryptService":10,"./fileDialogDirective":11,"./fileTransferService":12,"angular-bsfy":1}],14:[function(require,module,exports){
-module.exports = function ($scope, $rootScope) {
+module.exports = function ($scope, $rootScope, $http) {
     $scope.user = $rootScope.user;
     $scope.pageName = 'File Locker';
+
+    var userLinks = [
+        'sidebar_filemanager',
+        'sidebar_userprofile',
+        'sidebar_signout',
+        'menu_userprofile',
+        'menu_signout'
+    ];
+
+    var nonUserLinks = [
+        'sidebar_signin',
+        'sidebar_signup',
+        'menu_signup',
+        'menu_signin'
+    ];
+
+    if (!$scope.user) {
+        for (var i = 0; i < userLinks.length; i++){
+            hideElement(userLinks[i]);
+        }
+        for (var i = 0; i < nonUserLinks.length; i++){
+            showElement(nonUserLinks[i]);
+        }
+    } else {
+        for (var i = 0; i < userLinks.length; i++){
+            showElement(userLinks[i]);
+        }
+        for (var i = 0; i < nonUserLinks.length; i++){
+            hideElement(nonUserLinks[i]);
+        }
+    }
+
+    function showElement(id) {
+        var element = $('#' + id);
+        element.removeClass('ng-hide');
+        element.addClass('ng-show');
+    }
+
+    function hideElement(id) {
+        var element = $('#' + id);
+        element.removeClass('ng-show');
+        element.addClass('ng-hide');
+    }
+
+    $scope.getFileStats = function () {
+        var res = $http.get('/fl/dataStats/');
+
+        res.success(function (data) {
+            $scope.fileCount = data.msg.fileCount || 0;
+            $scope.fileBytes = data.msg.diskSize || 0;
+        });
+
+        res.error(function () {
+            alert('Server is not responding.  Please try again later.');
+        })
+    };
+
+    $scope.getFileStats();
 };
 },{}],15:[function(require,module,exports){
 var app = require('angular-bsfy').module('main');
@@ -688,9 +748,60 @@ var app = require('angular-bsfy').module('main');
 app.controller('loginController', require('./loginController'));
 },{"./loginController":17,"angular-bsfy":1}],17:[function(require,module,exports){
 module.exports = function ($scope, $http, $location, $rootScope) {
-    $scope.user = null;
-    $http.defaults.headers.common.Authorization = '';
     $scope.showSpinny = false;
+
+    if($rootScope.user){
+        var res = $http.get('/fl/signout');
+
+        res.success(function(){
+            $rootScope.user = null;
+            $scope.user = null;
+            $http.defaults.headers.common.Authorization = '';
+        });
+    }
+
+    var userLinks = [
+        'sidebar_filemanager',
+        'sidebar_userprofile',
+        'sidebar_signout',
+        'menu_userprofile',
+        'menu_signout'
+    ];
+
+    var nonUserLinks = [
+        'sidebar_signin',
+        'sidebar_signup',
+        'menu_signup',
+        'menu_signin'
+    ];
+
+    if (!$scope.user) {
+        for (var i = 0; i < userLinks.length; i++){
+            hideElement(userLinks[i]);
+        }
+        for (var i = 0; i < nonUserLinks.length; i++){
+            showElement(nonUserLinks[i]);
+        }
+    } else {
+        for (var i = 0; i < userLinks.length; i++){
+            showElement(userLinks[i]);
+        }
+        for (var i = 0; i < nonUserLinks.length; i++){
+            hideElement(nonUserLinks[i]);
+        }
+    }
+
+    function showElement(id) {
+        var element = $('#' + id);
+        element.removeClass('ng-hide');
+        element.addClass('ng-show');
+    }
+
+    function hideElement(id) {
+        var element = $('#' + id);
+        element.removeClass('ng-show');
+        element.addClass('ng-hide');
+    }
 
     $scope.login = function () {
         $scope.showSpinny = true;
@@ -756,6 +867,13 @@ app.controller('userController', require('./userController'));
 module.exports = function ($scope, $rootScope) {
     $scope.pageName = 'User Profile';
     $scope.user = $rootScope.user;
+
+    $scope.changePassword = function(){
+        if($scope.newPass1 != $scope.newPass2){
+            $scope.errorMessage = 'Passwords do not match';
+        }
+
+    }
 };
 },{}],22:[function(require,module,exports){
 var app = require('angular-bsfy').module('main');

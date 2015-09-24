@@ -3,6 +3,16 @@
         <h1 class="page-header">{{pageName}}</h1>
     </div>
 </div>
+<div class="row" ng-show="errorMessage">
+    <div class="alert alert-danger">
+        {{errorMessage}}
+    </div>
+</div>
+<div class="row" ng-show="successMessage">
+    <div class="alert alert-success">
+        {{successMessage}}
+    </div>
+</div>
 <div class='row'>
     <div class="col-lg-6">
         <h3>{{user.username}}</h3>
@@ -13,15 +23,22 @@
             <p class="form-control-static">{{user.email}}</p>
 
         </div>
-        <div class="form-group">
-            <label>Old Password</label>
-            <input class="form-control" placeholder="Old password">
-            <label>New Password</label>
-            <input class="form-control" placeholder="New Password">
-            <label>Re-enter new Password</label>
-            <input class="form-control" placeholder="New Password">
-            <button type="button" class="btn btn-primary">Change Password
-            </button>
-        </div>
+        <form name="changepass">
+            <div class="form-group">
+                <label>Old Password</label>
+                <input class="form-control" placeholder="Old password" required
+                       ng-model="oldPass">
+                <label>New Password</label>
+                <input class="form-control" placeholder="New Password" required
+                       ng-model="newPass1">
+                <label>Re-enter new Password</label>
+                <input class="form-control" placeholder="New Password" required
+                       ng-model="newPass2">
+                <button type="button" class="btn btn-primary"
+                        ng-disabled="changepass.$invalid"
+                        ng-clikc="changePassword()">Change Password
+                </button>
+            </div>
+        </form>
     </div>
 </div>
