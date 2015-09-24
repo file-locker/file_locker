@@ -1,3 +1,4 @@
+/public/assets/bower_components
 # Logs
 logs
 *.log
@@ -27,3 +28,6 @@ build/Release
 node_modules
 
 db
+.env
+.DS_Store
+npm-debug.log
