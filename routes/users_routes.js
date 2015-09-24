@@ -15,7 +15,7 @@ var usersRoute = module.exports = exports = express.Router();
 usersRoute.use(passport.initialize());
 
 usersRoute.post('/signup', jsonParser, function(req, res) {
-  if ((!req.body.invitationCode) || req.body.invitationCode !== process.env.INVITATION_CODE) return handleError.err401(null, res);
+  if ((!req.body.invitationCode) || req.body.invitationCode !== process.env.INVITATION_CODE) return handleError.err(res, 403, 'Could not authenticate');
   require(__dirname + '/../lib/signup')(req, res);
 });
 
