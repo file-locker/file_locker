@@ -13,7 +13,7 @@ module.exports = function ($scope, $http, $location, $rootScope) {
             username: $scope.username,
             password: $scope.password,
             email: $scope.email,
-            invitation: $scope.invite
+            invitationCode: $scope.invite
         });
         res.success(function(data){
             $scope.showSpinny = false;
