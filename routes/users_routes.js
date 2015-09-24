@@ -27,6 +27,6 @@ usersRoute.get('/signout', bearerAuth.bearerAuthentication, function(req, res) {
   require(__dirname + '/../lib/signout')(req, res);
 });
 
-usersRoute.post('/changePassword', jsonParser, bearerAuth.bearerAuthentication, function(req, res) {
-    require(__dirname + '/lib/change_password')(req, res);
+usersRoute.post('/changePassword', bearerAuth.bearerAuthentication, jsonParser, function(req, res) {
+    require(__dirname + '/../lib/change_password')(req, res);
 });
