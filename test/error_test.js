@@ -19,7 +19,7 @@ describe('Error Handling', function() {
     }.bind(this);
   }
 
-  beforeEach(function() {
+  before(function() {
     res = new Res();
   });
 
