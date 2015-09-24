@@ -40,10 +40,11 @@
                         <input class="form-control"
                                placeholder="Invitation Code"
                                name="invite" autofocus="" ng-model="invite"
-                               required>
+                               required type="password">
                     </div>
                     <a class="btn btn-lg btn-success btn-block"
-                       ng-click="registerUser()">Sign Up</a>
+                       ng-click="registerUser()"
+                       ng-disabled="register.$invalid">Sign Up</a>
                 </fieldset>
             </form>
         </div>

@@ -2,10 +2,9 @@ module.exports = function ($http, fileCryptService) {
     var fileTransferService = {};
 
     fileTransferService.post = function ($scope, callback, callbackerr) {
-
+        $http.defaults.headers.common.Authorization = 'BEARER ' + $scope.user.token;
         var fileObj = {};
         var fileInput = document.getElementById('uploadfile');
-        console.log($scope.user);
         fileObj.name = fileInput.files[0].name;
         fileObj.orgFileSize = fileInput.files[0].size;
         fileObj.tags = $scope.dialogConfig.tags;
@@ -28,25 +27,31 @@ module.exports = function ($http, fileCryptService) {
     };
 
     fileTransferService.get = function ($scope, file, callbackerr) {
-        var res = $http.get('/fl/files' + file.id);
-
+        var res = $http.get('/fl/files/' + $scope.dialogConfig.file.fileLink);
         res.success(function (data) {
             var trigger = document.createElement('a');
             try {
-                var fileContents = fileCryptService.decrypt($scope, data,
+                var fileContents = fileCryptService.decrypt($scope, data.msg.fileContents,
                     $scope.dialogConfig.passphrasedn);
+
                 trigger.setAttribute('href', window.URL.createObjectURL(fileContents));
-                trigger.setAttribute('download', file.name);
+                trigger.setAttribute('download', $scope.dialogConfig.file.name);
                 if (document.createEvent) {
                     var event = document.createEvent('MouseEvents');
                     event.initEvent('click', true, true);
                     trigger.dispatchEvent(event);
+                    $scope.toggleModal();
+                    return;
                 } else {
+                    console.log('click');
                     trigger.click();
+                    $scope.toggleModal();
+                    return;
                 }
-                scope.toggleModal();
+
             } catch (err) {
-                $scope.mode = 'wrongkey';
+                console.log(err);
+                $scope.dialogConfig.mode = 'wrongkey';
             }
         });
 
@@ -56,26 +61,33 @@ module.exports = function ($http, fileCryptService) {
     };
 
     fileTransferService.deleteFile = function ($scope, file, callback, callbackerr) {
-        var res = $http.delete('/fl/files' + file.id);
+        var res = $http.delete('/fl/files/' + $scope.dialogConfig.file._id);
 
         res.success(function () {
-            callback(file.name + ' successfully deleted.');
+            callback($scope.dialogConfig.file.name + ' successfully deleted.');
         });
 
         res.error(function (data) {
-            callbackerr('Could not delete ' + file.name + '. '+ data.msg);
+            callbackerr('Could not delete ' + $scope.dialogConfig.file.name + '. ' + data.msg);
         });
     };
 
     fileTransferService.updateFile = function ($scope, file, callback, callbackerr) {
-        var res = $http.patch('/fl/files' + file.id);
+        var fileObj = {};
+        fileObj.name = $scope.dialogConfig.file.name;
+        fileObj.tags = $scope.dialogConfig.file.tags;
+        fileObj.description = $scope.dialogConfig.file.description;
 
-        res.success(function (data) {
-            callback(file.name + ' successfully updated.');
+        var res = $http.patch('/fl/files/' + $scope.dialogConfig.file._id,
+            fileObj);
+
+        res.success(function () {
+            callback($scope.dialogConfig.file.name + ' successfully updated.');
         });
 
         res.error(function (data) {
-            callbackerr('Could not update ' + file.name + '. '+ data.msg);
+            callbackerr('Could not update ' + $scope.dialogConfig.file.name +
+                '. ' + data.msg);
         });
     };
 

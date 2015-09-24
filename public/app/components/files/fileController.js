@@ -1,10 +1,9 @@
 module.exports = function ($scope, fileTransferService, $http, $rootScope) {
     $scope.pageName = 'File Locker';
     $scope.user = $rootScope.user;
+    $http.defaults.headers.common.Authorization = 'BEARER ' + $scope.user.token;
 
-    //TODO remove list stub
-
-    $scope.files = [{}];
+    $scope.files = [];
 
     $scope.getFileList = function () {
         var res = $http.get('/fl/userFiles/');
@@ -71,7 +70,7 @@ module.exports = function ($scope, fileTransferService, $http, $rootScope) {
 
     $scope.update = function (file) {
         $scope.showSpinny = true;
-        fileTransferService.update($scope, file, $scope.fileOperationSuccess,
+        fileTransferService.updateFile($scope, file, $scope.fileOperationSuccess,
             $scope.fileOperationError);
     };
 

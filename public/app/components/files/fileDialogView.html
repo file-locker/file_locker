@@ -1,33 +1,37 @@
 <div>
     <div ng-show="dialogConfig.mode === 'upload'">
-        <form>
+        <form name="uploadform">
             <div class="form-group">
                 <div class="form-group">
                     <label for="tags">Tags</label>
                     <input class="form-control" id="tags"
                            ng-model="dialogConfig.tags"
-                            id="uploadtags">
+                           id="uploadtags">
                     <label for="desc">Description</label>
                     <input class="form-control" id="desc"
                            ng-model="dialogConfig.description"
-                            id="uploaddesc">
+                           id="uploaddesc">
 
                     <p class="help-block">Enter a few tags and a description to
                         make searching for the file easier.</p>
                 </div>
                 <div class="form-group">
                     <label>Select a file to upload</label>
-                    <input type="file" ng-model="dialogConfig.fileInput"
-                            id="uploadfile">
+                    <input type="file" id="uploadfile">
+                    <input type="hidden" id="filename" value="{{$('#uploadfile').files[0].name}}" required>
                 </div>
-                <div class="form-group has-error">
+                <div class="form-group">
                     <label class="control-label">Enter an
                         encryption passphrase</label>
                     <input type="text" class="form-control"
-                           ng-model="dialogConfig.passphraseup" id="passphraseup">
+                           ng-model="dialogConfig.passphraseup"
+                           id="passphraseup"
+                           required>
                 </div>
                 <button type="button" class="btn btn-success btn-lg"
-                        ng-click="dialogConfig.callback()" id="uploadbtn">Upload File
+                        ng-click="dialogConfig.callback()" id="uploadbtn"
+                        ng-disabled="uploadform.$invalid">
+                    Upload File
                 </button>
                 <button type="button" class="btn btn-default btn-lg"
                         ng-click="toggleModal()">Cancel
@@ -63,13 +67,14 @@
         </form>
     </div>
     <div ng-show="dialogConfig.mode === 'update'">
-        <form>
+        <form nanme="updateform">
             <div class="form-group">
                 <div class="form-group">
                     <label>Filename</label>
                     <input class="form-control"
                            ng-model="dialogConfig.file.name"
-                           id="updfilename">
+                           id="updfilename"
+                           required>
 
                     <p class="help-block">Change the current filename for this
                         file.</p>
@@ -87,7 +92,8 @@
                         on this file.</p>
                 </div>
                 <button type="button" class="btn btn-primary btn-lg"
-                        ng-click="dialogConfig.callback()" id="updatebtn">Save
+                        ng-click="dialogConfig.callback()" id="updatebtn"
+                        ng-disabled="updateform.$invalid">Save
                 </button>
                 <button type="button" class="btn btn-default btn-lg"
                         ng-click="toggleModal()">Cancel
@@ -96,17 +102,18 @@
         </form>
     </div>
     <div ng-show="dialogConfig.mode === 'download'">
-        <form>
+        <form name="downloadform">
             <div class="form-group">
-                <div class="form-group has-error">
+                <div class="form-group">
                     <label class="control-label">Enter the
                         encryption passphrase</label>
                     <input type="text" class="form-control"
                            ng-model="dialogConfig.passphrasedn"
-                           id="passphrasedn">
+                           id="passphrasedn" required>
                 </div>
                 <button type="button" class="btn btn-primary btn-lg"
-                        ng-click="dialogConfig.callback()" id="download">
+                        ng-click="dialogConfig.callback()" id="download"
+                        ng-disabled="downloadform.$invalid">
                     Download File
                 </button>
                 <button type="button" class="btn btn-default btn-lg"

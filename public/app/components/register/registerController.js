@@ -17,8 +17,8 @@ module.exports = function ($scope, $http, $location, $rootScope) {
         });
         res.success(function(data){
             $scope.showSpinny = false;
-            $rootScope.user = data;
-            $http.defaults.headers.common['Authorization'] = 'BEARER ' + data.token;
+            $rootScope.user = data.user;
+            $http.defaults.headers.common['Authorization'] = 'BEARER ' + data.user.token;
             $location.path('/');
         });
         res.error(function(data){
