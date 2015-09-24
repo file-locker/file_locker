@@ -854,7 +854,7 @@ module.exports = function ($scope, $http, $location, $rootScope) {
             $location.path('/');
         });
         res.error(function(data){
-            $scope.problemMsg = data;
+            $scope.problemMsg = data.msg;
             $scope.showSpinny = false;
         });
     };
