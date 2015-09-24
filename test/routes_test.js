@@ -9,40 +9,65 @@ require(__dirname + '/../server');
 var File = require(__dirname + '/../models/file');
 var Metadata = require(__dirname + '/../models/metadata');
 var User = require(__dirname + '/../models/user');
-
+var EventEmitter = require('events').EventEmitter;
+var ee = new EventEmitter();
 var mongoose = require('mongoose');
 
 describe('files routes', function() {
   var testUser;
 
   before(function(done) {
+    ee.emit('newUser', done);
+  });
+
+  ee.on('newUser', function(done) {
     var newUser = new User();
     newUser.username = 'user';
-    newUser.generateHash('testpass', function(err, hash) {
+    newUser.generateHash('test', function(err, hash) {
       if (err) throw err;
-      newUser.generateToken(function(err, token) {
-        if (err) throw err;
-        newUser.token = token;
-        newUser.save(function(err, data) {
-          testUser = data;
+      ee.emit('generateToken', newUser, done);
+    });
+  });
 
-          var testFile = new File();
-          testFile.fileContents = 'file contents here';
-          testFile.save(function(err, data) {
-            var meta = {};
-            meta.fileLink = data._id.toString();
-            meta.name = 'ITS A TEST';
-            meta.tags = 'buggy';
-            meta.createdBy = 'user';
+  ee.on('generateToken', function(newUser, done) {
+    newUser.generateToken(function(err, token) {
+      if (err) throw err;
+      newUser.token = token;
+      ee.emit('saveNewUser', newUser, done);
+    });
+  });
 
-            var testMeta = new Metadata(meta);
-            testMeta.save(function(err, data) {
-              done();
-            });
-          });
-        });
-      });
-    });    
+  ee.on('saveNewUser', function(newUser, done) {
+    newUser.save(function(err, data) {
+      if (err) throw err;
+      testUser = data;
+      ee.emit('createFile', done);
+    });
+  });
+
+  ee.on('createFile', function(done) {
+    var testFile = new File();
+    testFile.fileContents = 'file contents here';
+    testFile.save(function(err, data) {
+      if (err) throw err;
+      ee.emit('createMeta', data, done);
+    });
+  });
+
+  ee.on('createMeta', function(data, done) {
+    var meta = {};
+    meta.fileLink = data._id.toString();
+    meta.name = 'ITS A TEST';
+    meta.tags = 'buggy';
+    meta.createdBy = 'user';
+    var testMeta = new Metadata(meta);
+    ee.emit('saveMeta', testMeta, done);
+  });
+
+  ee.on('saveMeta', function(testMeta, done) {
+    testMeta.save(function(err, data) {
+      done();
+    });
   });
 
   after(function(done) {
