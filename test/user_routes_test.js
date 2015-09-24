@@ -51,5 +51,23 @@ describe('user login/signup test', function() {
         done();
       });
   });
+
+  it('should change a user\'s password', function(done) {
+    chai.request(host)
+        .post('/change_password')
+        .auth('test', 'user')
+        .send({password: 'newPass'})
+        .end(function(err, res) {
+          expect(err).to.eql(null);
+          chai.request(host)
+              .get('/signin')
+              .auth('test', 'newPass')
+              .end(function(err, res) {
+                expect(err).to.eql(null);
+                expect(res.body.user.token).to.be.a('string');
+                done();
+              });
+        });
+  });
 });
 
