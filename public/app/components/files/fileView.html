@@ -1,0 +1,51 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">{{pageName}}
+            <button type="button"
+                    class="btn btn-primary btn-lg"
+                    ng-click="dialogUpload()">
+                <span class="fa fa-cloud-upload"></span> Upload File
+            </button>
+        </h1>
+    </div>
+</div>
+<div class="row" ng-show="errorMessage">
+    <div class="alert alert-danger" >
+        {{errorMessage}}
+    </div>
+</div>
+<div class="row" ng-show="successMessage">
+    <div class="alert alert-success" >
+        {{successMessage}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-5 col-xs-6" ng-repeat="file in files">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                {{file.name}}
+            </div>
+            <div class="panel-body">
+                <p>{{file.orgFileSize}} kb</p> <br/>
+
+                <p>{{file.description}}</p> <br/>
+
+                <p>{{file.tags}}</p>
+            </div>
+            <div class="panel-footer" style="text-align: right">
+                <button type="button" class="btn btn-outline btn-success"
+                        ng-click="dialogDownload(file)"><span
+                        class="fa fa-cloud-download fa-2x"></span></button>
+                <button type="button" class="btn btn-outline btn-primary"
+                        ng-click="dialogUpdate(file)"><span
+                        class="fa fa-edit fa-2x"></span></button>
+                <button type="button" class="btn btn-outline btn-danger"><span
+                        class="fa fa-times fa-2x"
+                        ng-click="dialogDelete(file)"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+<modal-dialog show='modalShown' width='750px'>
+    <file-dialog></file-dialog>
+</modal-dialog>

@@ -5,51 +5,28 @@ var jsonParser = require('body-parser').json();
 var File = require(__dirname + '/../models/file');
 var User = require(__dirname + '/../models/user');
 var passport = require('passport');
-var basicStrategy = require('passport-http').BasicStrategy;
+var basicAuth = require(__dirname + '/../lib/basic_auth');
+var bearerAuth = require(__dirname + '/../lib/bearer_auth');
+var handleError = require(__dirname + '/../lib/handle_error');
+var EventEmitter = require('events').EventEmitter;
+var ee = new EventEmitter();
 
 var usersRoute = module.exports = exports = express.Router();
 usersRoute.use(passport.initialize());
 
-passport.use(new basicStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function(err, user) {
-      if (err) return done(err);
-      if (!user) return done(null, false);
-      user.compareHash(password, function(err, hasRes) {
-        if (err) return done(err);
-        return done(null, user);
-      });
-    });
-  }
-));
-
-
-
-
 usersRoute.post('/signup', jsonParser, function(req, res) {
-  var newUser = new User();
-  newUser.username = req.body.username;
-  newUser.email = req.body.email;
-  newUser.generateHash(req.body.password, function(err, hash) {
-    if (err) throw err; //Change to proper err handler
-    newUser.generateToken(function(err, token) {
-      if (err) throw err;
-      newUser.token = token;
-      newUser.save(function(err, data) {
-        if (err) throw err; //probably change this one as well
-        res.json({ user: data });
-      });
-    });
-  });
+  if ((!req.body.invitationCode) || req.body.invitationCode !== process.env.INVITATION_CODE) return handleError.err(res, 403, 'Could not authenticate');
+  require(__dirname + '/../lib/signup')(req, res);
 });
 
-usersRoute.get('/signin', passport.authenticate('basic', { session: false }), function(req, res) {
-  req.user.generateToken(function(err, token) {
-    if (err) throw err; //Stop being lazy and require in the error handler
-    req.user.save(function(err, data) {
-      if (err) throw err;
-      data.token = token;
-      res.json({ user: data });
-    });
-  });
+usersRoute.get('/signin', basicAuth.basicAuthentication, function(req, res) {
+  require(__dirname + '/../lib/signin')(req, res);
+});
+
+usersRoute.get('/signout', bearerAuth.bearerAuthentication, function(req, res) {
+  require(__dirname + '/../lib/signout')(req, res);
+});
+
+usersRoute.post('/changePassword', jsonParser, bearerAuth.bearerAuthentication, function(req, res) {
+    require(__dirname + '/lib/change_password')(req, res);
 });
