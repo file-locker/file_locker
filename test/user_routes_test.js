@@ -11,7 +11,7 @@ var User = require(__dirname + '/../models/user');
 var host = 'localhost:3000/fl';
 
 describe('user login/signup test', function() {
-  var testUser = '';
+  var testUserToken = '';
 
   after(function(done) {
     mongoose.connection.db.dropDatabase(function() {
@@ -24,7 +24,7 @@ describe('user login/signup test', function() {
       .post('/signup')
       .send({username: 'test', password: 'user', email: 'testemail', invitationCode: process.env.INVITATION_CODE})
       .end(function(err, res) {
-        testUser = res.body.user.token;
+        testUserToken = res.body.user.token;
         expect(err).to.eql(null);
         expect(res.body.user.username).to.eql('test');
         done();
@@ -34,7 +34,7 @@ describe('user login/signup test', function() {
   it('should log the user out', function(done) {
     chai.request(host)
     .get('/signout')
-    .set('authorization', 'BEARER ' + testUser)
+    .set('authorization', 'BEARER ' + testUserToken)
     .end(function(err, res) {
       expect(err).to.eql(null);
       done();
@@ -46,16 +46,17 @@ describe('user login/signup test', function() {
       .get('/signin')
       .auth('test', 'user')
       .end(function(err, res) {
+        testUserToken = res.body.user.token;
         expect(err).to.eql(null);
-        expect(res.body.user.token).to.be.a('string');
+        expect(res.body.user.token).to.not.eql('');
         done();
       });
   });
 
   it('should change a user\'s password', function(done) {
     chai.request(host)
-        .post('/change_password')
-        .auth('test', 'user')
+        .post('/changePassword')
+        .set('authorization', 'BEARER ' + testUserToken)
         .send({password: 'newPass'})
         .end(function(err, res) {
           expect(err).to.eql(null);
