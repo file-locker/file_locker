@@ -18,7 +18,7 @@ app.use('/fl/', fileRouter);
 app.use('/fl/', userRouter);
 
 app.use(function(req, res) {
-  res.send(404, 'Page not found');
+  res.status(404).send('Page not found');
 });
 
 var port = process.env.PORT || 3000;
