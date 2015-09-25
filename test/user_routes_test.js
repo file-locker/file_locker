@@ -24,9 +24,11 @@ describe('user login/signup test', function() {
       .post('/signup')
       .send({username: 'test', password: 'user', email: 'testemail', invitationCode: process.env.INVITATION_CODE})
       .end(function(err, res) {
-        testUser = res.body.user.token;
         expect(err).to.eql(null);
+        expect(res.body.user.password).to.eql(undefined);
         expect(res.body.user.username).to.eql('test');
+        expect(typeof res.body.user.token).to.eql('string');
+        testUser = res.body.user.token;
         done();
       });
   });
@@ -37,6 +39,8 @@ describe('user login/signup test', function() {
     .set('authorization', 'BEARER ' + testUser)
     .end(function(err, res) {
       expect(err).to.eql(null);
+      expect(res.status).to.eql(200);
+      expect(typeof res.body.msg).to.eql('string');
       done();
     });
   });
@@ -47,7 +51,9 @@ describe('user login/signup test', function() {
       .auth('test', 'user')
       .end(function(err, res) {
         expect(err).to.eql(null);
+        expect(res.body.user.username).to.eql('test');
         expect(res.body.user.token).to.be.a('string');
+        expect(res.body.user.token).to.not.eql(testUser);
         done();
       });
   });
