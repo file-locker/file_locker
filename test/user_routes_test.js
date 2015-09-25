@@ -29,7 +29,7 @@ describe('user login/signup test', function() {
         expect(res.body.user.password).to.eql(undefined);
         expect(res.body.user.username).to.eql('test');
         expect(typeof res.body.user.token).to.eql('string');
-        testUser = res.body.user.token;
+        testUserToken = res.body.user.token;
         done();
       });
   });
@@ -51,39 +51,12 @@ describe('user login/signup test', function() {
       .get('/signin')
       .auth('test', 'user')
       .end(function(err, res) {
-        testUserToken = res.body.user.token;
         expect(err).to.eql(null);
-<<<<<<< HEAD
-        expect(res.body.user.token).to.not.eql('');
-        done();
-      });
-  });
-
-  it('should change a user\'s password', function(done) {
-    chai.request(host)
-        .post('/changePassword')
-        .set('authorization', 'BEARER ' + testUserToken)
-        .send({password: 'newPass'})
-        .end(function(err, res) {
-          expect(err).to.eql(null);
-          chai.request(host)
-              .get('/signin')
-              .auth('test', 'newPass')
-              .end(function(err, res) {
-                console.log(res);
-                expect(err).to.eql(null);
-                expect(res.body.user.token).to.be.a('string');
-                done();
-              });
-        });
-  });
-=======
         expect(res.body.user.username).to.eql('test');
         expect(res.body.user.token).to.be.a('string');
-        expect(res.body.user.token).to.not.eql(testUser);
+        expect(res.body.user.token).to.not.eql(testUserToken);
         done();
       });
   });
->>>>>>> master
 });
 
