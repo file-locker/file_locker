@@ -326,12 +326,11 @@ require('./components/home/index');
 require('./components/waiting/index');
 require('./components/register/index');
 require('./components/login/index');
-require('./components/user/index');
 require('./components/dialog/index');
 require('./components/files/index');
 
 app.config(require('./app.routes'));
-},{"./app.routes":6,"./components/dialog/index":8,"./components/files/index":13,"./components/home/index":15,"./components/login/index":16,"./components/register/index":18,"./components/user/index":20,"./components/waiting/index":22,"angular-bsfy":1,"angular-bsfy/route":4}],6:[function(require,module,exports){
+},{"./app.routes":6,"./components/dialog/index":8,"./components/files/index":13,"./components/home/index":15,"./components/login/index":16,"./components/register/index":18,"./components/waiting/index":20,"angular-bsfy":1,"angular-bsfy/route":4}],6:[function(require,module,exports){
 module.exports = function ($routeProvider, $locationProvider) {
 
     var checkUser = function ($q, $rootScope, $location, $http) {
@@ -684,7 +683,6 @@ module.exports = function ($scope, $rootScope, $http) {
         'sidebar_filemanager',
         'sidebar_userprofile',
         'sidebar_signout',
-        'menu_userprofile',
         'menu_signout'
     ];
 
@@ -762,7 +760,6 @@ module.exports = function ($scope, $http, $location, $rootScope) {
 
     var userLinks = [
         'sidebar_filemanager',
-        'sidebar_userprofile',
         'sidebar_signout',
         'menu_userprofile',
         'menu_signout'
@@ -862,34 +859,8 @@ module.exports = function ($scope, $http, $location, $rootScope) {
 },{}],20:[function(require,module,exports){
 var app = require('angular-bsfy').module('main');
 
-app.controller('userController', require('./userController'));
-},{"./userController":21,"angular-bsfy":1}],21:[function(require,module,exports){
-module.exports = function ($scope, $rootScope, $http) {
-    $scope.pageName = 'User Profile';
-    $scope.user = $rootScope.user;
-
-    $scope.changePassword = function(){
-        $scope.successMessage = '';
-        $scope.errorMessage = '';
-        if($scope.newPass1 != $scope.newPass2){
-            $scope.errorMessage = 'Passwords do not match';
-        }
-        var res = $http.post('/fl/changePassword', {password:$scope.newPass1});
-
-        res.success(function(){
-            $scope.successMessage = 'Password successfully changed.';
-        });
-
-        res.error(function(err){
-            $scope.errorMessage = "Unable to change password:" + err.msg;
-        });
-    }
-};
-},{}],22:[function(require,module,exports){
-var app = require('angular-bsfy').module('main');
-
 app.directive('waitingSpinnyThing', require('./waitingDirective'));
-},{"./waitingDirective":23,"angular-bsfy":1}],23:[function(require,module,exports){
+},{"./waitingDirective":21,"angular-bsfy":1}],21:[function(require,module,exports){
 module.exports = function () {
     return {
         restrict: 'E',

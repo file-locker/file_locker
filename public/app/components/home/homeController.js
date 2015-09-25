@@ -6,7 +6,6 @@ module.exports = function ($scope, $rootScope, $http) {
         'sidebar_filemanager',
         'sidebar_userprofile',
         'sidebar_signout',
-        'menu_userprofile',
         'menu_signout'
     ];
 

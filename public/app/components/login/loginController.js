@@ -13,7 +13,6 @@ module.exports = function ($scope, $http, $location, $rootScope) {
 
     var userLinks = [
         'sidebar_filemanager',
-        'sidebar_userprofile',
         'sidebar_signout',
         'menu_userprofile',
         'menu_signout'
