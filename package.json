@@ -1,6 +1,6 @@
 {
   "name": "file_locker",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "an encrypted file storage app",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,7 @@
   "author": "Steven Chadwick <sschadwick@gmail.com> (http://www.github.com/sschadwick)",
   "contributors": [
     "Gregory Irwin <greg.irwin@gmail.com>",
-    "William Shull"
+    "William Shull <will.shull@gmail.com"
   ],
   "license": "MIT",
   "bugs": {
