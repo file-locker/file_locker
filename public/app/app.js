@@ -821,6 +821,12 @@ module.exports = function ($scope, $http, $location, $rootScope) {
         });
 
     };
+
+    $scope.loginDemo = function() {
+        $scope.username = 'demo';
+        $scope.password = 'secret';
+        $scope.login();
+    };
 };
 },{}],18:[function(require,module,exports){
 var app = require('angular-bsfy').module('main');
