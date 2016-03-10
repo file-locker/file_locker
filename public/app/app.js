@@ -811,7 +811,7 @@ module.exports = function ($scope, $http, $location, $rootScope) {
             $rootScope.user = data.user;
             $http.defaults.headers.common.Authorization = 'BEARER ' + data.user.token;
             $scope.showSpinny = false;
-            $location.path('/');
+            $location.path('/files');
         });
 
         res.error(function(){
