@@ -75,9 +75,9 @@ module.exports = function ($scope, $http, $location, $rootScope) {
 
     };
 
-    $scope.loginTest = function() {
-        $scope.username = 'test';
-        $scope.password = 'fooabar123';
+    $scope.loginDemo = function() {
+        $scope.username = 'demo';
+        $scope.password = 'secret';
         $scope.login();
     };
 };
