@@ -821,6 +821,28 @@ module.exports = function ($scope, $http, $location, $rootScope) {
         });
 
     };
+
+    $scope.loginDemo = function() {
+        $scope.showSpinny = true;
+        $http.defaults.headers.common['Authorization'] = 'BASIC ' +
+            btoa('demo:secret');
+
+        var res = $http.get('/fl/signin');
+
+        res.success(function (data){
+            $rootScope.user = data.user;
+            $http.defaults.headers.common.Authorization = 'BEARER ' + data.user.token;
+            $scope.showSpinny = false;
+            $location.path('/');
+        });
+
+        res.error(function(){
+            $scope.wrongPass = true;
+            $scope.showSpinny = false;
+            $http.defaults.headers.common.Authorization = '';
+        });
+
+    };
 };
 },{}],18:[function(require,module,exports){
 var app = require('angular-bsfy').module('main');
