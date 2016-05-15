@@ -74,4 +74,10 @@ module.exports = function ($scope, $http, $location, $rootScope) {
         });
 
     };
+
+    $scope.loginDemo = function() {
+        $scope.username = 'demo';
+        $scope.password = 'secret';
+        $scope.login();
+    };
 };
